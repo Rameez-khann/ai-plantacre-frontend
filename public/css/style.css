@@ -1,3 +1,4 @@
+
    /* CSS Variables for Plant Theme */
         :root {
             --primary-green: #2d5a27;
@@ -14,7 +15,7 @@
             --border-radius: 12px;
             --transition: all 0.3s ease;
         }
-
+        
         /* Reset and Base Styles */
         * {
             margin: 0;
@@ -35,6 +36,10 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        .page{
+            padding-top: 80px;
         }
 
         .btn {
@@ -128,48 +133,7 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        /* Navigation */
-        .nav {
-            background: var(--white);
-            padding: 16px 0;
-            box-shadow: 0 2px 8px var(--shadow);
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            width: 100vw;
-        }
 
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-green);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-green);
-        }
 
         /* Main Content */
         .main-content {
