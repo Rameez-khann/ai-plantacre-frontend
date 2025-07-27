@@ -1,4 +1,3 @@
-import { IndoorPlant } from "./indoor-plants.interface";
 
 export const indoorPlantsList = [
     {

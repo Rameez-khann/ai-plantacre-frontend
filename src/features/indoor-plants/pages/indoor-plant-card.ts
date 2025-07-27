@@ -3,6 +3,7 @@ import { IndoorPlant } from "../indoor-plants.interface";
 
 export function indoorPlantCard(plant: IndoorPlant): string {
   const html = `
+  
     <div class="plant-card">
       <img src="${plant.image}" alt="${plant.name}" class="plant-image" />
       <div class="plant-info">

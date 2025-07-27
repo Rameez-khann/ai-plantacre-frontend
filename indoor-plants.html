@@ -2,59 +2,30 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Indoor Plants in Dublin</title>
-    <link rel="stylesheet" href="indoor-plants.css" />
-    <link rel="stylesheet" href="indoor-plant-card.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indoor Plants</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/indoor-plants.css">
+    <link rel="stylesheet" href="/css/indoor-plant-card.css">
 </head>
 
-<body>
+<body class="page">
     <section class="plant-page">
         <div class="plant-container">
-            <h1 class="plant-header">
-                🌿 Common Indoor Plants in Dublin
-            </h1>
-            <p class="plant-description">
-                Here's a collection of 15 popular indoor houseplants typically found in Dublin homes.
-            </p>
-            <div class="plant-grid" id="plantGrid">
-                <!-- JavaScript will populate this -->
+
+
+            <h1 class="plant-header">Select a Plant to Begin</h1>
+            <p class="plant-description">This indoor plant care system provides guidance tailored to common houseplants
+                in Dublin. Choose a plant you'd like to care for to get started.</p>
+
+            <div class="plant-grid" id="plant-grid">
+                <!-- ${sortedPlants.map((plant) => indoorPlantCard(plant)).join("")} -->
             </div>
         </div>
     </section>
-
-    <script type="module">
-        import { indoorPlantsList } from '/js/indoor-plants.js';
-        console.log({ indoorPlantsList });
-
-        function createPlantCard(plant) {
-            return `
-        <div class="plant-card">
-          <img src="${plant.image}" alt="${plant.name}" class="plant-image" />
-          <div class="plant-info">
-            <h2 class="plant-title">${plant.name}</h2>
-            <p class="plant-subtitle">${plant.scientificName}</p>
-            <div class="plant-details">
-              <p><strong>Soil:</strong> ${plant.soilType}</p>
-              <p><strong>Water (ml):</strong> ${plant.waterVolume}</p>
-              <p><strong>Fertilize every:</strong> ${plant.nutritionFrequency} days</p>
-              <p><strong>Fertilizer:</strong> ${plant.fertilizer}</p>
-            </div>
-          </div>
-        </div>
-      `;
-        }
-
-        const sortedPlants = indoorPlantsList.sort((a, b) =>
-            a.name.localeCompare(b.name)
-        );
-
-        const plantGrid = document.getElementById('plantGrid');
-        plantGrid.innerHTML = sortedPlants.map(createPlantCard).join('');
-    </script>
-
-    <script type="module" src="./indoor-plants.js"></script>
+    <script type="module" src="/js/features/navbar/navbar.js"></script>
+    <script type="module" src="/js/features/indoor-plants/indoor-plants.js"></script>
 </body>
 
 </html>
