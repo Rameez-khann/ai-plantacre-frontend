@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Care Hub - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+
+</head>
+
+<body>
+    <div class="auth-wrapper">
+        <!-- Animated Background Decorations -->
+        <div class="bg-decoration leaf-1">🍃</div>
+        <div class="bg-decoration leaf-2">🌿</div>
+        <div class="bg-decoration leaf-3">🌱</div>
+
+        <div class="auth-container">
+            <!-- Left Panel -->
+            <div class="auth-banner">
+                <h1>Welcome Back</h1>
+                <div class="banner-icon">🌳</div>
+                <p>Join our community of plant enthusiasts and discover the joy of nurturing green life.</p>
+            </div>
+
+            <!-- Right Panel - Auth Form -->
+            <div class="auth-form-container">
+                <form class="auth-form" id="loginForm">
+                    <h2>Sign In</h2>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                        <div class="error" id="passwordError"></div>
+                    </div>
+
+                    <div class="auth-options">
+                        <label class="checkbox-group">
+                            <input type="checkbox" id="rememberMe">
+                            Remember me
+                        </label>
+                        <a href="#" class="auth-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn auth-btn" id="loginBtn">
+                        <span class="btn-text" id="btnText">Sign In</span>
+                        <div class="btn-loading">
+                            <div class="loading" id="btnLoading" style="display:none;"></div>
+                        </div>
+                    </button>
+
+                    <div class="social-auth">
+                        <p>Or continue with</p>
+                        <div class="social-buttons">
+                            <a href="#" class="social-btn" data-provider="google">
+                                🌐 Google
+                            </a>
+                            <a href="#" class="social-btn" data-provider="github">
+                                💻 GitHub
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/features/navbar/navbar.js"></script>
+    <script type="module" src="/js/features/login/login.js"></script>
+</body>
+
+</html>

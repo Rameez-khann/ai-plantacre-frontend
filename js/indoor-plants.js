@@ -1,216 +1,216 @@
-        const PlantData = {
-            plants: [
-                {
-                    id: 1,
-                    name: "Monstera Deliciosa",
-                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80",
-                    care: "Water weekly, bright indirect light",
-                    status: "Healthy"
-                },
-                {
-                    id: 2,
-                    name: "Snake Plant",
-                    image: "https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?auto=format&fit=crop&w=400&q=80",
-                    care: "Water bi-weekly, low light tolerant",
-                    status: "Needs Water"
-                },
-                {
-                    id: 3,
-                    name: "Pothos",
-                    image: "https://images.unsplash.com/photo-1586093158851-4b8d95ac3b89?auto=format&fit=crop&w=400&q=80",
-                    care: "Water when soil is dry, bright indirect light",
-                    status: "Healthy"
-                },
-                {
-                    id: 4,
-                    name: "Peace Lily",
-                    image: "https://images.unsplash.com/photo-1509423350716-97f2360af503?auto=format&fit=crop&w=400&q=80",
-                    care: "Keep soil moist, medium light",
-                    status: "Needs Water"
-                },
-                {
-                    id: 5,
-                    name: "Rubber Plant",
-                    image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?auto=format&fit=crop&w=400&q=80",
-                    care: "Water when top inch is dry, bright light",
-                    status: "Healthy"
-                },
-                {
-                    id: 6,
-                    name: "Fiddle Leaf Fig",
-                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80",
-                    care: "Water weekly, bright indirect light",
-                    status: "Needs Water"
-                }
-            ],
+import { IndoorPlant } from "./indoor-plants.interface";
 
-            getPlants() {
-                return this.plants;
-            },
-
-            updatePlantStatus(plantId, newStatus) {
-                const plant = this.plants.find(p => p.id === plantId);
-                if (plant) {
-                    plant.status = newStatus;
-                    this.updateStats();
-                }
-            },
-
-            updateStats() {
-                const stats = {
-                    total: this.plants.length,
-                    needsWater: this.plants.filter(p => p.status === "Needs Water").length,
-                    healthy: this.plants.filter(p => p.status === "Healthy").length,
-                    humidity: Math.floor(Math.random() * 20) + 55 + "%"
-                };
-
-                UI.updateDashboard(stats);
-            }
-        };
-
-                // UI Management Module
-        const UI = {
-            init() {
-                this.renderPlants();
-                this.bindEvents();
-                this.animateOnScroll();
-            },
-
-            renderPlants() {
-                const gallery = document.getElementById('plantGallery');
-                const plants = PlantData.getPlants();
-
-                gallery.innerHTML = plants.map(plant => `
-                    <div class="plant-card fade-in" data-plant-id="${plant.id}">
-                        <img src="${plant.image}" alt="${plant.name}" class="plant-image">
-                        <div class="plant-info">
-                            <h3 class="plant-name">${plant.name}</h3>
-                            <p class="plant-care">${plant.care}</p>
-                            <span class="plant-status ${plant.status.toLowerCase().replace(' ', '-')}">${plant.status}</span>
-                        </div>
-                    </div>
-                `).join('');
-            },
-
-            updateDashboard(stats) {
-                document.getElementById('totalPlants').textContent = stats.total;
-                document.getElementById('needsWater').textContent = stats.needsWater;
-                document.getElementById('healthyPlants').textContent = stats.healthy;
-                document.getElementById('avgHumidity').textContent = stats.humidity;
-            },
-
-            bindEvents() {
-                // Refresh button functionality
-                document.getElementById('refreshBtn').addEventListener('click', this.handleRefresh.bind(this));
-
-                // Plant card click events
-                document.getElementById('plantGallery').addEventListener('click', this.handlePlantClick.bind(this));
-
-                // Smooth scrolling for navigation
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', this.handleSmoothScroll);
-                });
-            },
-
-            handleRefresh() {
-                const refreshBtn = document.getElementById('refreshBtn');
-                const refreshText = document.getElementById('refreshText');
-                const loadingSpinner = document.getElementById('loadingSpinner');
-
-                // Show loading state
-                refreshText.style.display = 'none';
-                loadingSpinner.style.display = 'inline-block';
-                refreshBtn.disabled = true;
-
-                // Simulate API call
-                setTimeout(() => {
-                    PlantData.updateStats();
-
-                    // Hide loading state
-                    refreshText.style.display = 'inline';
-                    loadingSpinner.style.display = 'none';
-                    refreshBtn.disabled = false;
-
-                    // Show success feedback
-                    this.showNotification('Plant data refreshed successfully!', 'success');
-                }, 1500);
-            },
-
-            handlePlantClick(event) {
-                const plantCard = event.target.closest('.plant-card');
-                if (plantCard) {
-                    const plantId = parseInt(plantCard.dataset.plantId);
-                    const plant = PlantData.getPlants().find(p => p.id === plantId);
-
-                    if (plant) {
-                        this.showPlantDetails(plant);
-                    }
-                }
-            },
-
-            handleSmoothScroll(event) {
-                event.preventDefault();
-                const target = document.querySelector(event.target.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            },
-
-            showPlantDetails(plant) {
-                const newStatus = plant.status === 'Healthy' ? 'Needs Water' : 'Healthy';
-                PlantData.updatePlantStatus(plant.id, newStatus);
-                this.renderPlants();
-                this.showNotification(`${plant.name} status updated to: ${newStatus}`, 'info');
-            },
-
-            showNotification(message, type = 'info') {
-                // Create notification element
-                const notification = document.createElement('div');
-                notification.className = `notification ${type}`;
-                notification.textContent = message;
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: var(--primary-green);
-                    color: white;
-                    padding: 16px 24px;
-                    border-radius: var(--border-radius);
-                    box-shadow: 0 4px 12px var(--shadow);
-                    z-index: 1000;
-                    animation: slideIn 0.3s ease-out;
-                `;
-
-                document.body.appendChild(notification);
-
-                // Remove notification after 3 seconds
-                setTimeout(() => {
-                    notification.style.animation = 'slideOut 0.3s ease-in';
-                    setTimeout(() => {
-                        document.body.removeChild(notification);
-                    }, 300);
-                }, 3000);
-            },
-
-            animateOnScroll() {
-                const observerOptions = {
-                    threshold: 0.1,
-                    rootMargin: '0px 0px -50px 0px'
-                };
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.style.animation = 'fadeInUp 0.6s ease-out';
-                        }
-                    });
-                }, observerOptions);
-
-                document.querySelectorAll('.fade-in').forEach(el => {
-                    observer.observe(el);
-                });
-            }
-        };
+export const indoorPlantsList = [
+    {
+        id: '1',
+        name: 'Snake Plant',
+        scientificName: 'Sansevieria trifasciata',
+        // image: 'https://images.unsplash.com/photo-1593482892540-3ba669b4673d?w=640&h=960&fit=crop&crop=center',
+        image: 'https://images.pexels.com/photos/2123482/pexels-photo-2123482.jpeg',
+        careLevel: 'Easy',
+        light: 'Low',
+        waterFrequency: 18,
+        waterVolume: 150,
+        fertilizer: 'DCM Houseplant Fertiliser or Westland Feed All Purpose',
+        nutritionFrequency: 30,
+        soilType: 'Well-draining, sandy soil',
+        notes: 'Tolerates low light and infrequent watering.',
+    },
+    {
+        id: '2',
+        name: 'Peace Lily',
+        scientificName: 'Spathiphyllum',
+        image: 'https://sargentsgardens.com/wp-content/uploads/2024/12/Photo-Dec-17-2024-10-00-28-AM-scaled.jpg',
+        // Alternative: 'https://images.unsplash.com/photo-1544508992-a69ade1a4e8c?w=640&h=960&fit=crop&crop=center'
+        careLevel: 'Easy',
+        light: 'Medium',
+        waterFrequency: 7,
+        waterVolume: 200,
+        fertilizer: 'Miracle-Gro Indoor Plant Food or Westland Houseplant Feed',
+        nutritionFrequency: 14,
+        soilType: 'Peat-based, well-aerated potting mix',
+        notes: 'Prefers humid conditions and indirect light.',
+    },
+    {
+        id: '3',
+        name: 'Spider Plant',
+        scientificName: 'Chlorophytum comosum',
+        image: 'https://media.houseandgarden.co.uk/photos/66e02c4143ff56cb528fe5b6/master/w_1600,c_limit/08-01-24-HG-Crisp242.jpg',
+        careLevel: 'Easy',
+        light: 'Bright',
+        waterFrequency: 7,
+        waterVolume: 150,
+        fertilizer: 'Westland Feed All Purpose or Baby Bio Houseplant Food',
+        nutritionFrequency: 25,
+        soilType: 'Loamy, well-draining soil',
+        notes: 'Produces offshoots that can be propagated easily.',
+    },
+    {
+        id: '4',
+        name: 'Aloe Vera',
+        scientificName: 'Aloe barbadensis miller',
+        image: 'https://gardeningsg.nparks.gov.sg/images/Plants/aloevera5_jacquelinechua.jpg',
+        careLevel: 'Easy',
+        light: 'Bright',
+        waterFrequency: 21,
+        waterVolume: 120,
+        fertilizer: 'DCM Cactus & Succulent Feed or Vitax Houseplant Feed',
+        nutritionFrequency: 42,
+        soilType: 'Cactus mix or sandy potting soil',
+        notes: 'Do not overwater; allow soil to dry completely.',
+    },
+    {
+        id: '5',
+        name: 'ZZ Plant',
+        scientificName: 'Zamioculcas zamiifolia',
+        image: 'https://glasswingshop.com/cdn/shop/products/8D2A2069.jpg?v=1595400475&width=940',
+        careLevel: 'Easy',
+        light: 'Low',
+        waterFrequency: 21,
+        waterVolume: 100,
+        fertilizer: 'Vitax Indoor Plant Feed or Westland All Purpose',
+        nutritionFrequency: 30,
+        soilType: 'Well-drained loamy soil',
+        notes: 'Thrives on neglect, ideal for low-light spaces.',
+    },
+    {
+        id: '6',
+        name: 'Pothos',
+        scientificName: 'Epipremnum aureum',
+        image: 'https://interiorplants.ca/wp-content/uploads/2023/09/pothos-jade-satin-6in-1-1536x1536.jpg',
+        careLevel: 'Easy',
+        light: 'Medium',
+        waterFrequency: 6,
+        waterVolume: 180,
+        fertilizer: 'Baby Bio Houseplant Food or Miracle-Gro Indoor',
+        nutritionFrequency: 20,
+        soilType: 'Peaty, well-drained soil',
+        notes: 'Fast-growing vine; great for hanging baskets.',
+    },
+    {
+        id: '7',
+        name: 'Philodendron',
+        scientificName: 'Philodendron hederaceum',
+        image: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTTpw0Ebkuq9gTXYatNShJlDjAJoacnjgAA50igfedK8WDRxEW79999prfRhYKKogS-HAmMC89oW9rlKg5Y8v_Vlw',
+        careLevel: 'Moderate',
+        light: 'Medium',
+        waterFrequency: 6,
+        waterVolume: 200,
+        fertilizer: 'Westland or Baby Bio',
+        nutritionFrequency: 21,
+        soilType: 'Rich, loose potting soil with peat',
+        notes: 'Loves humidity and indirect light.',
+    },
+    {
+        id: '8',
+        name: 'Fiddle Leaf Fig',
+        scientificName: 'Ficus lyrata',
+        image: 'https://bloomscape.com/wp-content/uploads/2025/04/self-watering-slate-xxl-fiddle-leaf-fig.png?ver=1096531',
+        careLevel: 'Advanced',
+        light: 'Bright',
+        waterFrequency: 10,
+        waterVolume: 300,
+        fertilizer: 'DCM Liquid Plant Food or Baby Bio',
+        nutritionFrequency: 15,
+        soilType: 'Loamy, fast-draining soil with bark',
+        notes: 'Needs bright light and consistent watering.',
+    },
+    {
+        id: '9',
+        name: 'Rubber Plant',
+        scientificName: 'Ficus elastica',
+        image: 'https://www.ladybirdnursery.com.au/wp-content/uploads/0004362_tineke-variegated-rubber-tree.jpeg.webp',
+        careLevel: 'Moderate',
+        light: 'Medium',
+        waterFrequency: 10,
+        waterVolume: 250,
+        fertilizer: 'Miracle-Gro Liquid Plant Food or Westland',
+        nutritionFrequency: 21,
+        soilType: 'Loamy soil with coco coir or peat',
+        notes: 'Wipe leaves regularly to prevent dust buildup.',
+    },
+    {
+        id: '10',
+        name: 'Dracaena',
+        scientificName: 'Dracaena marginata',
+        image: 'https://hips.hearstapps.com/hmg-prod/images/dracaena-plant-care-66578f39338ba.jpg?crop=1.00xw:1.00xh;0,0&resize=1200:*',
+        careLevel: 'Moderate',
+        light: 'Medium',
+        waterFrequency: 12,
+        waterVolume: 180,
+        fertilizer: 'Westland Houseplant Feed or Baby Bio',
+        nutritionFrequency: 30,
+        soilType: 'Rich but well-drained potting soil',
+        notes: 'Avoid fluoride-heavy water; sensitive to salts.',
+    },
+    {
+        id: '11',
+        name: 'Chinese Evergreen',
+        scientificName: 'Aglaonema',
+        image: 'https://www.gardendesign.com/pictures/images/320x240Exact_0x0/site_3/igneous-timeless-tides-chinese-evergreen-aglaonema-commutatum-proven-winners_19182.jpg',
+        careLevel: 'Easy',
+        light: 'Low',
+        waterFrequency: 10,
+        waterVolume: 170,
+        fertilizer: 'Miracle-Gro Indoor or Baby Bio',
+        nutritionFrequency: 30,
+        soilType: 'Peat-based, moisture-retaining soil',
+        notes: 'Great for low-light offices or bedrooms.',
+    },
+    {
+        id: '12',
+        name: 'Calathea',
+        scientificName: 'Calathea orbifolia',
+        image: 'https://thenunheadgardener.com/wp-content/uploads/images/28000000000000839-1.jpg',
+        careLevel: 'Advanced',
+        light: 'Low',
+        waterFrequency: 5,
+        waterVolume: 220,
+        fertilizer: 'DCM or Westland All Purpose',
+        nutritionFrequency: 20,
+        soilType: 'Peaty, high-humidity mix with perlite',
+        notes: 'Leaves move daily with light exposure.',
+    },
+    {
+        id: '13',
+        name: 'Monstera',
+        scientificName: 'Monstera deliciosa',
+        image: 'https://images.squarespace-cdn.com/content/v1/56923fa6a976af0bfc533475/4487beac-be01-4ad5-8133-3276fb81972b/IMG_7938.jpg?format=2500w',
+        careLevel: 'Moderate',
+        light: 'Medium',
+        waterFrequency: 7,
+        waterVolume: 250,
+        fertilizer: 'Baby Bio or DCM Organic Liquid Feed',
+        nutritionFrequency: 21,
+        soilType: 'Aroid mix: peat, bark, perlite',
+        notes: 'Loves space and support for climbing.',
+    },
+    {
+        id: '14',
+        name: 'Boston Fern',
+        scientificName: 'Nephrolepis exaltata',
+        image: 'https://asset.bloomnation.com/c_pad,d_vendor:global:catalog:product:image.png,f_auto,fl_preserve_transparency,q_auto,w_1400/v1720646402/vendor/3628/catalog/product/2/0/20220628043840_file_62bb2e9000d3c_62bb2fd5e2671.jpg',
+        careLevel: 'Moderate',
+        light: 'Medium',
+        waterFrequency: 4,
+        waterVolume: 300,
+        fertilizer: 'Vitax Liquid Houseplant Food',
+        nutritionFrequency: 14,
+        soilType: 'Peat-based, high-humidity mix',
+        notes: 'Needs misting and frequent watering.',
+    },
+    {
+        id: '15',
+        name: 'Jade Plant',
+        scientificName: 'Crassula ovata',
+        image: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-crassula-ovata-jade-plant-money-plant-royalty-free-image-1722349156.jpg?crop=0.668xw:1.00xh;0.194xw,0&resize=1120:*',
+        careLevel: 'Easy',
+        light: 'Bright',
+        waterFrequency: 15,
+        waterVolume: 120,
+        fertilizer: 'DCM Cactus & Succulent Feed',
+        nutritionFrequency: 30,
+        soilType: 'Cactus mix or sandy soil',
+        notes: 'Allow soil to dry between waterings.',
+    }
+];

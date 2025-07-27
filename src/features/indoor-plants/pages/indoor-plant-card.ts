@@ -1,9 +1,8 @@
 import { createPage } from "../../../core/create-page";
-import { getCssFile } from "../../../core/get-css-file";
 import { IndoorPlant } from "../indoor-plants.interface";
 
 export function indoorPlantCard(plant: IndoorPlant): string {
-    const html = `
+  const html = `
     <div class="plant-card">
       <img src="${plant.image}" alt="${plant.name}" class="plant-image" />
       <div class="plant-info">
@@ -19,8 +18,8 @@ export function indoorPlantCard(plant: IndoorPlant): string {
     </div>
   `;
 
-    const css = 'indoor-plant-card.css';
+  const css = 'indoor-plant-card.css';
 
-    const page = createPage(html, css, 'noNavbar');
-    return page;
+  const page = createPage(html, css, 'noNavbar');
+  return page;
 }

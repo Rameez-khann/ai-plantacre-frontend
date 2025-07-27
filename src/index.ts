@@ -1,6 +1,7 @@
 import express from 'express';
 import { indoorPlantListPage } from './features/indoor-plants/pages/indoor-plant-lists';
 import { homePage } from './features/home/home';
+import { loginPage } from './features/login/login';
 
 
 const app = express();
@@ -16,6 +17,12 @@ app.get('/', async (_req: any, res: any) => {
 
 app.get('/indoor-plants', async (req, res) => {
     const page = indoorPlantListPage();
+    res.send(page);
+});
+
+
+app.get('/login', async (_req: any, res: any) => {
+    const page = loginPage();
     res.send(page);
 });
 
