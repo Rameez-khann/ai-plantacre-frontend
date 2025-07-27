@@ -1,6 +1,6 @@
 import { IndoorPlant } from "./indoor-plants.interface";
 
-export const indoorPlantsList = [
+export const indoorPlantsList: IndoorPlant[] = [
     {
         id: '1',
         name: 'Snake Plant',
