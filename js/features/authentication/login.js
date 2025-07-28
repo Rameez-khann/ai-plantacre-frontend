@@ -1,14 +1,7 @@
-// import { navbar } from '../navbar/navbar.js';
-import { 
-    validateEmail, 
-    validatePassword, 
-    showError, 
-    clearError, 
-    login, 
-    setToken, 
-    showLoading, 
-    showNotification 
-} from './login-functions.js';
+
+import { showAlert } from "../../shared/alerts.js";
+import { validatePassword, validateEmail, showFormError, clearFormError } from "../../shared/forms.js";
+import { showLoading } from "./auth.js";
 
 // Navbar
 
@@ -19,16 +12,16 @@ import {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            clearError('email');
-            clearError('password');
+            clearFormError('email');
+            clearFormError('password');
 
             if (!validateEmail(email)) {
-                showError('email', 'Invalid email');
+                showFormError('email', 'Invalid email');
                 return;
             }
 
             if (!validatePassword(password)) {
-                showError('password', 'Password too short');
+                showFormError('password', 'Password too short');
                 return;
             }
 
@@ -37,11 +30,11 @@ import {
             try {
                 const result = await login(email, password);
                 setToken(result.token);
-                showNotification('Login successful!');
+                showAlert('Login successful!','success');
                 // window.location.href = 'dashboard.html';
             } catch (error) {
-                showError('password', error.message);
-                showNotification('Login failed', 'error');
+                showFormError('password', error.message);
+                showAlert('Login failed', 'error');
             } finally {
                 showLoading(false);
             }
