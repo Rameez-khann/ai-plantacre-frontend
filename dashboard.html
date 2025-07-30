@@ -479,6 +479,203 @@
             transform: translate(-50%, -50%);
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            color: var(--text-light);
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: -0.5rem;
+        }
+
+        .close:hover {
+            color: var(--text-dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--accent-green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-green);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            box-shadow: 0 8px 24px var(--shadow-hover);
+            z-index: 2000;
+            min-width: 300px;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .notification.success {
+            border-left: 4px solid #4caf50;
+        }
+
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+
+        /* Plant health indicators */
+        .health-indicator {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px var(--white);
+        }
+
+        .health-indicator.excellent {
+            background: #4caf50;
+        }
+
+        .health-indicator.good {
+            background: #8bc34a;
+        }
+
+        .health-indicator.warning {
+            background: #ff9800;
+        }
+
+        .health-indicator.poor {
+            background: #f44336;
+        }
+
+        /* Pulse animation for urgent care */
+        .urgent-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+            }
+        }
+
         @media (max-width: 1200px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -516,6 +713,12 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 1.5rem;
+            }
         }
 
         @media (max-width: 500px) {
@@ -534,7 +737,6 @@
         }
     </style>
 </head>
-
 
 <body>
     <div class="page">
@@ -566,168 +768,8 @@
                     </button>
                 </div>
 
-                <div class="plants-grid">
-                    <!-- Peace Lily -->
-                    <div class="plant-card">
-                        <div class="plant-card-inner">
-                            <div class="plant-image-container">
-                                <img src="https://sargentsgardens.com/wp-content/uploads/2024/12/Photo-Dec-17-2024-10-00-28-AM-scaled.jpg"
-                                    alt="Peace Lily" class="plant-image">
-                                <div class="plant-badges">
-                                    <span class="badge easy">Easy</span>
-                                </div>
-                                <div class="plant-actions">
-                                    <button class="action-btn edit-btn" onclick="editPlant(2)">✏️</button>
-                                    <button class="action-btn delete-btn" onclick="deletePlant(2)">🗑️</button>
-                                </div>
-                            </div>
-                            <div class="plant-content">
-                                <div class="plant-header">
-                                    <div class="plant-name">Peace Lily</div>
-                                    <div class="scientific-name">Spathiphyllum</div>
-                                </div>
-
-                                <div class="plant-stats">
-                                    <div class="stat-item">
-                                        <span class="stat-icon">☀️</span>
-                                        <span class="stat-label">Light:</span>
-                                        <span class="stat-value">Medium</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">💧</span>
-                                        <span class="stat-label">Water:</span>
-                                        <span class="stat-value">7 days</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">🥤</span>
-                                        <span class="stat-label">Volume:</span>
-                                        <span class="stat-value">200ml</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">🌱</span>
-                                        <span class="stat-label">Feed:</span>
-                                        <span class="stat-value">14 days</span>
-                                    </div>
-                                </div>
-
-                                <div class="plant-footer">
-                                    <div class="last-care">
-                                        Last watered: 3 days ago<br>
-                                        Last fed: 8 days ago
-                                    </div>
-                                    <button class="view-btn" onclick="viewPlant(2)">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Monstera -->
-                    <div class="plant-card">
-                        <div class="plant-card-inner">
-                            <div class="plant-image-container">
-                                <img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400&h=200&fit=crop"
-                                    alt="Monstera" class="plant-image">
-                                <div class="plant-badges">
-                                    <span class="badge medium">Medium</span>
-                                </div>
-                                <div class="plant-actions">
-                                    <button class="action-btn edit-btn" onclick="editPlant(1)">✏️</button>
-                                    <button class="action-btn delete-btn" onclick="deletePlant(1)">🗑️</button>
-                                </div>
-                            </div>
-                            <div class="plant-content">
-                                <div class="plant-header">
-                                    <div class="plant-name">Monstera Deliciosa</div>
-                                    <div class="scientific-name">Monstera deliciosa</div>
-                                </div>
-
-                                <div class="plant-stats">
-                                    <div class="stat-item">
-                                        <span class="stat-icon">☀️</span>
-                                        <span class="stat-label">Light:</span>
-                                        <span class="stat-value">Bright</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">💧</span>
-                                        <span class="stat-label">Water:</span>
-                                        <span class="stat-value">10 days</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">🥤</span>
-                                        <span class="stat-label">Volume:</span>
-                                        <span class="stat-value">300ml</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">🌱</span>
-                                        <span class="stat-label">Feed:</span>
-                                        <span class="stat-value">21 days</span>
-                                    </div>
-                                </div>
-
-                                <div class="plant-footer">
-                                    <div class="last-care">
-                                        Last watered: Yesterday<br>
-                                        Last fed: 12 days ago
-                                    </div>
-                                    <button class="view-btn" onclick="viewPlant(1)">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Snake Plant -->
-                    <div class="plant-card">
-                        <div class="plant-card-inner">
-                            <div class="plant-image-container">
-                                <img src="https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=400&h=200&fit=crop"
-                                    alt="Snake Plant" class="plant-image">
-                                <div class="plant-badges">
-                                    <span class="badge easy">Easy</span>
-                                </div>
-                                <div class="plant-actions">
-                                    <button class="action-btn edit-btn" onclick="editPlant(3)">✏️</button>
-                                    <button class="action-btn delete-btn" onclick="deletePlant(3)">🗑️</button>
-                                </div>
-                            </div>
-                            <div class="plant-content">
-                                <div class="plant-header">
-                                    <div class="plant-name">Snake Plant</div>
-                                    <div class="scientific-name">Sansevieria trifasciata</div>
-                                </div>
-
-                                <div class="plant-stats">
-                                    <div class="stat-item">
-                                        <span class="stat-icon">☀️</span>
-                                        <span class="stat-label">Light:</span>
-                                        <span class="stat-value">Any</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">💧</span>
-                                        <span class="stat-label">Water:</span>
-                                        <span class="stat-value">21 days</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">🥤</span>
-                                        <span class="stat-label">Volume:</span>
-                                        <span class="stat-value">150ml</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-icon">🌱</span>
-                                        <span class="stat-label">Feed:</span>
-                                        <span class="stat-value">60 days</span>
-                                    </div>
-                                </div>
-
-                                <div class="plant-footer">
-                                    <div class="last-care">
-                                        Last watered: 15 days ago<br>
-                                        Last fed: 45 days ago
-                                    </div>
-                                    <button class="view-btn" onclick="viewPlant(3)">Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="plants-grid" id="plantsGrid">
+                    <!-- Plants will be dynamically generated here -->
                 </div>
             </div>
 
@@ -740,29 +782,14 @@
                         Quick stats about your entire garden collection and overall health metrics.
                     </p>
 
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number">3</div>
-                            <div class="stat-text">Total Plants</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">2</div>
-                            <div class="stat-text">Need Water Soon</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">1</div>
-                            <div class="stat-text">Need Fertilizer</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">92%</div>
-                            <div class="stat-text">Health Score</div>
-                        </div>
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Stats will be dynamically updated -->
                     </div>
 
                     <div
                         style="background: var(--cream); padding: 1rem; border-radius: var(--border-radius); border-left: 4px solid var(--accent-green);">
-                        <strong>💡 Garden Tip of the Day:</strong> Winter months require less frequent watering. Check
-                        soil moisture before watering to prevent root rot.
+                        <strong>💡 Garden Tip of the Day:</strong> <span id="gardenTip">Winter months require less
+                            frequent watering. Check soil moisture before watering to prevent root rot.</span>
                     </div>
                 </div>
 
@@ -773,57 +800,546 @@
                         All your plant care tasks organized by priority. Click the circle to mark tasks complete.
                     </p>
 
-                    <div class="action-list">
-                        <!-- Overdue Actions -->
-                        <div
-                            style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(244, 67, 54, 0.1); border-radius: var(--border-radius); border-left: 3px solid #f44336;">
-                            <strong style="color: #f44336;">🚨 Urgent - Overdue Tasks</strong>
-                        </div>
-                        <div class="action-item urgent" onclick="toggleComplete(this)">
-                            <div class="action-icon">💧</div>
-                            <div class="action-content">
-                                <div class="action-title">Water Snake Plant</div>
-                                <div class="action-plant">Sansevieria trifasciata</div>
-                                <div class="action-timing overdue">6 days overdue</div>
-                            </div>
-                            <button class="complete-btn"
-                                onclick="event.stopPropagation(); completeAction(this)"></button>
-                        </div>
+                    <div class="action-list" id="actionList">
+                        <!-- Actions will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        <!-- Today's Actions -->
-                        <div
-                            style="margin: 1.5rem 0 1rem 0; padding: 0.5rem; background: rgba(255, 152, 0, 0.1); border-radius: var(--border-radius); border-left: 3px solid #ff9800;">
-                            <strong style="color: #ff9800;">📅 Due Today</strong>
-                        </div>
-                        <div class="action-item today" onclick="toggleComplete(this)">
-                            <div class="action-icon">🌱</div>
-                            <div class="action-content">
-                                <div class="action-title">Fertilize Monstera</div>
-                                <div class="action-plant">Monstera deliciosa</div>
-                                <div class="action-timing today">Due today</div>
-                            </div>
-                            <button class="complete-btn"
-                                onclick="event.stopPropagation(); completeAction(this)"></button>
-                        </div>
+    <!-- Add/Edit Plant Modal -->
+    <div id="plantModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Add New Plant</h2>
 
-                        <div class="action-item today" onclick="toggleComplete(this)">
-                            <div class="action-icon">🍃</div>
-                            <div class="action-content">
-                                <div class="action-title">Clean Leaves</div>
-                                <div class="action-plant">Peace Lily</div>
-                                <div class="action-timing today">Monthly maintenance</div>
-                            </div>
-                            <button class="complete-btn"
-                                onclick="event.stopPropagation(); completeAction(this)"></button>
-                        </div>
+            <form id="plantForm">
+                <div class="form-group">
+                    <label class="form-label" for="plantName">Plant Name</label>
+                    <input type="text" id="plantName" class="form-input" required>
+                </div>
 
-                        <!-- Upcoming Actions -->
-                        <div
-                            style="margin: 1.5rem 0 1rem 0; padding: 0.5rem; background: rgba(156, 39, 176, 0.1); border-radius: var(--border-radius); border-left: 3px solid #9c27b0;">
-                            <strong style="color: #9c27b0;">🔮 Coming Up</strong>
+                <div class="form-group">
+                    <label class="form-label" for="scientificName">Scientific Name</label>
+                    <input type="text" id="scientificName" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="plantImage">Image URL</label>
+                    <input type="url" id="plantImage" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="careLevel">Care Difficulty</label>
+                    <select id="careLevel" class="form-select" required>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="lightRequirement">Light Requirement</label>
+                    <select id="lightRequirement" class="form-select" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Bright">Bright</option>
+                        <option value="Direct">Direct</option>
+                        <option value="Any">Any</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="wateringFreq">Watering Frequency (days)</label>
+                    <input type="number" id="wateringFreq" class="form-input" min="1" max="60" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="waterVolume">Water Volume (ml)</label>
+                    <input type="number" id="waterVolume" class="form-input" min="50" max="1000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="fertilizingFreq">Fertilizing Frequency (days)</label>
+                    <input type="number" id="fertilizingFreq" class="form-input" min="7" max="365" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="notes">Care Notes</label>
+                    <textarea id="notes" class="form-textarea"
+                        placeholder="Any special care instructions..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Plant</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Plant data structure
+        let plants = [
+            {
+                id: 1,
+                name: "Peace Lily",
+                scientificName: "Spathiphyllum",
+                image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=200&fit=crop",
+                careLevel: "easy",
+                lightRequirement: "Medium",
+                wateringFreq: 7,
+                waterVolume: 200,
+                fertilizingFreq: 14,
+                lastWatered: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+                lastFertilized: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+                notes: "Enjoys humidity and filtered water"
+            },
+            {
+                id: 2,
+                name: "Monstera Deliciosa",
+                scientificName: "Monstera deliciosa",
+                image: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400&h=200&fit=crop",
+                careLevel: "medium",
+                lightRequirement: "Bright",
+                wateringFreq: 10,
+                waterVolume: 300,
+                fertilizingFreq: 21,
+                lastWatered: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+                lastFertilized: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
+                notes: "Loves to climb, provide moss pole"
+            },
+            {
+                id: 3,
+                name: "Snake Plant",
+                scientificName: "Sansevieria trifasciata",
+                image: "https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=400&h=200&fit=crop",
+                careLevel: "easy",
+                lightRequirement: "Any",
+                wateringFreq: 21,
+                waterVolume: 150,
+                fertilizingFreq: 60,
+                lastWatered: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+                lastFertilized: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000),
+                notes: "Very drought tolerant, avoid overwatering"
+            },
+            {
+                id: 4,
+                name: "Fiddle Leaf Fig",
+                scientificName: "Ficus lyrata",
+                image: "https://images.unsplash.com/photo-1586016286298-65b62d8b8595?w=400&h=200&fit=crop",
+                careLevel: "hard",
+                lightRequirement: "Bright",
+                wateringFreq: 7,
+                waterVolume: 400,
+                fertilizingFreq: 14,
+                lastWatered: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+                lastFertilized: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+                notes: "Sensitive to overwatering and changes in light"
+            }
+        ];
+
+        let completedActions = [];
+        let currentEditingId = null;
+
+        // Garden tips array
+        const gardenTips = [
+            "Winter months require less frequent watering. Check soil moisture before watering to prevent root rot.",
+            "Yellow leaves often indicate overwatering. Let soil dry between waterings.",
+            "Rotate your plants weekly to ensure even growth and prevent leaning.",
+            "Clean leaves monthly with a damp cloth to improve photosynthesis.",
+            "Group plants with similar humidity needs together for better care.",
+            "Use filtered or distilled water for sensitive plants like Peace Lilies.",
+            "Check for pests weekly - early detection makes treatment easier.",
+            "Fertilize less in winter when most plants enter dormancy.",
+            "Place humidity-loving plants near each other to create a microclimate.",
+            "Morning sunlight is gentler than harsh afternoon sun for most indoor plants."
+        ];
+
+        // Initialize the dashboard
+        function init() {
+            renderPlants();
+            renderStats();
+            renderActions();
+            showRandomTip();
+        }
+
+        // Show random garden tip
+        function showRandomTip() {
+            const tipElement = document.getElementById('gardenTip');
+            const randomTip = gardenTips[Math.floor(Math.random() * gardenTips.length)];
+            tipElement.textContent = randomTip;
+        }
+
+        // Render plant cards
+        function renderPlants() {
+            const plantsGrid = document.getElementById('plantsGrid');
+            plantsGrid.innerHTML = '';
+
+            plants.forEach(plant => {
+                const plantCard = createPlantCard(plant);
+                plantsGrid.appendChild(plantCard);
+            });
+        }
+
+        // Create individual plant card
+        function createPlantCard(plant) {
+            const card = document.createElement('div');
+            card.className = 'plant-card';
+
+            const daysSinceWatered = Math.floor((Date.now() - plant.lastWatered.getTime()) / (1000 * 60 * 60 * 24));
+            const daysSinceFertilized = Math.floor((Date.now() - plant.lastFertilized.getTime()) / (1000 * 60 * 60 * 24));
+
+            const needsWater = daysSinceWatered >= plant.wateringFreq;
+            const needsFertilizer = daysSinceFertilized >= plant.fertilizingFreq;
+
+            // Determine health indicator
+            let healthClass = 'excellent';
+            if (needsWater || needsFertilizer) {
+                healthClass = 'warning';
+            }
+            if (daysSinceWatered > plant.wateringFreq + 3) {
+                healthClass = 'poor';
+            }
+
+            const pulseClass = (needsWater && daysSinceWatered > plant.wateringFreq + 2) ? 'urgent-pulse' : '';
+
+            card.innerHTML = `
+                <div class="plant-card-inner">
+                    <div class="plant-image-container">
+                        <img src="${plant.image}" alt="${plant.name}" class="plant-image" 
+                             onerror="this.src='https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=200&fit=crop'">
+                        <div class="health-indicator ${healthClass} ${pulseClass}"></div>
+                        <div class="plant-badges">
+                            <span class="badge ${plant.careLevel}">${plant.careLevel}</span>
                         </div>
-                        <div class="action-item upcoming" onclick="toggleComplete(this)">
-                            <div class="action-icon">💧</div>
-                            <div class="action-content">
-                                <div class="action-title">Water Peace Lily</div>
-                                <div class="action
+                        <div class="plant-actions">
+                            <button class="action-btn edit-btn" onclick="editPlant(${plant.id})" title="Edit Plant">✏️</button>
+                            <button class="action-btn delete-btn" onclick="deletePlant(${plant.id})" title="Delete Plant">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="plant-content">
+                        <div class="plant-header">
+                            <div class="plant-name">${plant.name}</div>
+                            <div class="scientific-name">${plant.scientificName}</div>
+                        </div>
+                        
+                        <div class="plant-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon">☀️</span>
+                                <span class="stat-label">Light:</span>
+                                <span class="stat-value">${plant.lightRequirement}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">💧</span>
+                                <span class="stat-label">Water:</span>
+                                <span class="stat-value">Every ${plant.wateringFreq}d</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">🌱</span>
+                                <span class="stat-label">Feed:</span>
+                                <span class="stat-value">Every ${plant.fertilizingFreq}d</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon">💦</span>
+                                <span class="stat-label">Amount:</span>
+                                <span class="stat-value">${plant.waterVolume}ml</span>
+                            </div>
+                        </div>
+                        
+                        <div class="plant-footer">
+                            <div class="last-care">
+                                Last watered:<br>
+                                <strong>${daysSinceWatered} days ago</strong>
+                            </div>
+                            <button class="view-btn" onclick="viewPlantDetails(${plant.id})">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Render statistics
+        function renderStats() {
+            const statsGrid = document.getElementById('statsGrid');
+
+            const totalPlants = plants.length;
+            const easyPlants = plants.filter(p => p.careLevel === 'easy').length;
+            const plantsNeedingWater = plants.filter(p => {
+                const daysSinceWatered = Math.floor((Date.now() - p.lastWatered.getTime()) / (1000 * 60 * 60 * 24));
+                return daysSinceWatered >= p.wateringFreq;
+            }).length;
+            const healthyPlants = plants.filter(p => {
+                const daysSinceWatered = Math.floor((Date.now() - p.lastWatered.getTime()) / (1000 * 60 * 60 * 24));
+                const daysSinceFertilized = Math.floor((Date.now() - p.lastFertilized.getTime()) / (1000 * 60 * 60 * 24));
+                return daysSinceWatered < p.wateringFreq && daysSinceFertilized < p.fertilizingFreq;
+            }).length;
+
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${totalPlants}</div>
+                    <div class="stat-text">Total Plants</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${healthyPlants}</div>
+                    <div class="stat-text">Healthy Plants</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${plantsNeedingWater}</div>
+                    <div class="stat-text">Need Water</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${easyPlants}</div>
+                    <div class="stat-text">Easy Care</div>
+                </div>
+            `;
+        }
+
+        // Render care actions
+        function renderActions() {
+            const actionList = document.getElementById('actionList');
+            const actions = [];
+
+            plants.forEach(plant => {
+                const daysSinceWatered = Math.floor((Date.now() - plant.lastWatered.getTime()) / (1000 * 60 * 60 * 24));
+                const daysSinceFertilized = Math.floor((Date.now() - plant.lastFertilized.getTime()) / (1000 * 60 * 60 * 24));
+
+                // Water action
+                const waterActionId = `water-${plant.id}`;
+                if (!completedActions.includes(waterActionId)) {
+                    let waterUrgency = 'upcoming';
+                    let waterTiming = `In ${plant.wateringFreq - daysSinceWatered} days`;
+
+                    if (daysSinceWatered >= plant.wateringFreq) {
+                        waterUrgency = daysSinceWatered > plant.wateringFreq + 2 ? 'urgent' : 'today';
+                        waterTiming = daysSinceWatered > plant.wateringFreq ?
+                            `${daysSinceWatered - plant.wateringFreq} days overdue` : 'Due today';
+                    }
+
+                    actions.push({
+                        id: waterActionId,
+                        plantId: plant.id,
+                        type: 'water',
+                        title: 'Water Plant',
+                        plantName: plant.name,
+                        urgency: waterUrgency,
+                        timing: waterTiming,
+                        priority: daysSinceWatered >= plant.wateringFreq ?
+                            (daysSinceWatered > plant.wateringFreq + 2 ? 3 : 2) : 1
+                    });
+                }
+
+                // Fertilizer action
+                const fertilizerActionId = `fertilize-${plant.id}`;
+                if (!completedActions.includes(fertilizerActionId)) {
+                    let fertilizerUrgency = 'upcoming';
+                    let fertilizerTiming = `In ${plant.fertilizingFreq - daysSinceFertilized} days`;
+
+                    if (daysSinceFertilized >= plant.fertilizingFreq) {
+                        fertilizerUrgency = 'today';
+                        fertilizerTiming = `${daysSinceFertilized - plant.fertilizingFreq} days overdue`;
+                    }
+
+                    actions.push({
+                        id: fertilizerActionId,
+                        plantId: plant.id,
+                        type: 'fertilize',
+                        title: 'Fertilize Plant',
+                        plantName: plant.name,
+                        urgency: fertilizerUrgency,
+                        timing: fertilizerTiming,
+                        priority: daysSinceFertilized >= plant.fertilizingFreq ? 2 : 1
+                    });
+                }
+            });
+
+            // Sort by priority (urgent first)
+            actions.sort((a, b) => b.priority - a.priority);
+
+            // Add completed actions
+            completedActions.forEach(actionId => {
+                const [type, plantId] = actionId.split('-');
+                const plant = plants.find(p => p.id === parseInt(plantId));
+                if (plant) {
+                    actions.push({
+                        id: actionId,
+                        plantId: plant.id,
+                        type: type,
+                        title: type === 'water' ? 'Water Plant' : 'Fertilize Plant',
+                        plantName: plant.name,
+                        urgency: 'completed',
+                        timing: 'Completed today',
+                        priority: 0
+                    });
+                }
+            });
+
+            actionList.innerHTML = actions.map(action => `
+                <div class="action-item ${action.urgency}" onclick="toggleAction('${action.id}')">
+                    <div class="action-icon">
+                        ${action.type === 'water' ? '💧' : '🌱'}
+                    </div>
+                    <div class="action-content">
+                        <div class="action-title">${action.title}</div>
+                        <div class="action-plant">${action.plantName}</div>
+                        <div class="action-timing ${action.urgency}">${action.timing}</div>
+                    </div>
+                    <button class="complete-btn ${action.urgency === 'completed' ? 'completed' : ''}" 
+                            onclick="event.stopPropagation(); toggleAction('${action.id}')">
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Toggle action completion
+        function toggleAction(actionId) {
+            const index = completedActions.indexOf(actionId);
+            if (index > -1) {
+                completedActions.splice(index, 1);
+            } else {
+                completedActions.push(actionId);
+
+                // Update last care date
+                const [type, plantId] = actionId.split('-');
+                const plant = plants.find(p => p.id === parseInt(plantId));
+                if (plant) {
+                    if (type === 'water') {
+                        plant.lastWatered = new Date();
+                    } else if (type === 'fertilize') {
+                        plant.lastFertilized = new Date();
+                    }
+                    showNotification(`${plant.name} has been ${type === 'water' ? 'watered' : 'fertilized'}!`, 'success');
+                }
+            }
+
+            renderPlants();
+            renderStats();
+            renderActions();
+        }
+
+        // Add new plant
+        function addPlant() {
+            currentEditingId = null;
+            document.getElementById('modalTitle').textContent = 'Add New Plant';
+            document.getElementById('plantForm').reset();
+            document.getElementById('plantModal').style.display = 'block';
+        }
+
+        // Edit plant
+        function editPlant(id) {
+            const plant = plants.find(p => p.id === id);
+            if (plant) {
+                currentEditingId = id;
+                document.getElementById('modalTitle').textContent = 'Edit Plant';
+                document.getElementById('plantName').value = plant.name;
+                document.getElementById('scientificName').value = plant.scientificName;
+                document.getElementById('plantImage').value = plant.image;
+                document.getElementById('careLevel').value = plant.careLevel;
+                document.getElementById('lightRequirement').value = plant.lightRequirement;
+                document.getElementById('wateringFreq').value = plant.wateringFreq;
+                document.getElementById('waterVolume').value = plant.waterVolume;
+                document.getElementById('fertilizingFreq').value = plant.fertilizingFreq;
+                document.getElementById('notes').value = plant.notes || '';
+                document.getElementById('plantModal').style.display = 'block';
+            }
+        }
+
+        // Delete plant
+        function deletePlant(id) {
+            if (confirm('Are you sure you want to delete this plant?')) {
+                plants = plants.filter(p => p.id !== id);
+                // Remove related completed actions
+                completedActions = completedActions.filter(actionId =>
+                    !actionId.endsWith(`-${id}`)
+                );
+                renderPlants();
+                renderStats();
+                renderActions();
+                showNotification('Plant deleted successfully', 'success');
+            }
+        }
+
+        // View plant details (placeholder)
+        function viewPlantDetails(id) {
+            const plant = plants.find(p => p.id === id);
+            if (plant) {
+                alert(`${plant.name} Details:\n\nScientific Name: ${plant.scientificName}\nCare Level: ${plant.careLevel}\nLight: ${plant.lightRequirement}\nWatering: Every ${plant.wateringFreq} days\nFertilizing: Every ${plant.fertilizingFreq} days\n\nNotes: ${plant.notes || 'None'}`);
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('plantModal').style.display = 'none';
+        }
+
+        // Handle form submission
+        document.getElementById('plantForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('plantName').value,
+                scientificName: document.getElementById('scientificName').value,
+                image: document.getElementById('plantImage').value || 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=200&fit=crop',
+                careLevel: document.getElementById('careLevel').value,
+                lightRequirement: document.getElementById('lightRequirement').value,
+                wateringFreq: parseInt(document.getElementById('wateringFreq').value),
+                waterVolume: parseInt(document.getElementById('waterVolume').value),
+                fertilizingFreq: parseInt(document.getElementById('fertilizingFreq').value),
+                notes: document.getElementById('notes').value
+            };
+
+            if (currentEditingId) {
+                // Edit existing plant
+                const plant = plants.find(p => p.id === currentEditingId);
+                Object.assign(plant, formData);
+                showNotification('Plant updated successfully!', 'success');
+            } else {
+                // Add new plant
+                const newPlant = {
+                    id: Math.max(...plants.map(p => p.id), 0) + 1,
+                    ...formData,
+                    lastWatered: new Date(),
+                    lastFertilized: new Date()
+                };
+                plants.push(newPlant);
+                showNotification('Plant added successfully!', 'success');
+            }
+
+            closeModal();
+            renderPlants();
+            renderStats();
+            renderActions();
+        });
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('plantModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Auto-refresh tips periodically
+        setInterval(showRandomTip, 30000); // Change tip every 30 seconds
+    </script>
+</body>
+
+</html>
