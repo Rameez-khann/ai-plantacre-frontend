@@ -48,11 +48,11 @@ function indoorPlantCard(plant) {
 }
 
 
- const sortedPlants = sortItemsByField(indoorPlantsList,'id','ASC')
+//  const sortedPlants = sortItemsByField(indoorPlantsList,'id','ASC')
 
  document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('plant-grid');
   if (!grid) return;
 
-  grid.innerHTML = sortedPlants.map((plant) => indoorPlantCard(plant)).join('');
+  grid.innerHTML = indoorPlantsList.map((plant) => indoorPlantCard(plant)).join('');
 });

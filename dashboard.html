@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Dashboard</title>
+    <style>
+        :root {
+            --primary-green: #2d5016;
+            --secondary-green: #4a7c59;
+            --accent-green: #7fb069;
+            --light-green: #a7c957;
+            --cream: #f2e8cf;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Dashboard-specific styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: var(--white);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
+        }
+
+        .dashboard-title {
+            position: relative;
+            z-index: 1;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            position: relative;
+            z-index: 1;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .plants-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-plant-btn {
+            background: linear-gradient(135deg, var(--accent-green), var(--light-green));
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-plant-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-hover);
+        }
+
+        .plants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .plant-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            height: fit-content;
+        }
+
+        .plant-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px var(--shadow-hover);
+        }
+
+        .plant-card-inner {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 0;
+            height: 200px;
+        }
+
+        .plant-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plant-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .plant-badges {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .badge {
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .badge.easy {
+            background: rgba(76, 175, 80, 0.9);
+        }
+
+        .badge.medium {
+            background: rgba(255, 193, 7, 0.9);
+        }
+
+        .badge.hard {
+            background: rgba(244, 67, 54, 0.9);
+        }
+
+        .plant-actions {
+            position: absolute;
+            bottom: 0.75rem;
+            left: 0.75rem;
+            display: flex;
+            gap: 0.25rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .plant-card:hover .plant-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .edit-btn {
+            background: rgba(33, 150, 243, 0.9);
+            color: var(--white);
+        }
+
+        .delete-btn {
+            background: rgba(244, 67, 54, 0.9);
+            color: var(--white);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .plant-content {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .plant-header {
+            margin-bottom: 1rem;
+        }
+
+        .plant-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+
+        .scientific-name {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .plant-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        .stat-icon {
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            min-width: 0;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-left: auto;
+            font-size: 0.75rem;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .plant-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .last-care {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            line-height: 1.3;
+        }
+
+        .view-btn {
+            background: var(--primary-green);
+            color: var(--white);
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--border-radius);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .view-btn:hover {
+            background: var(--secondary-green);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stats-overview {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--cream);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .actions-panel {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            position: sticky;
+            top: 2rem;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .action-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .action-item.urgent {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border-left: 4px solid #f44336;
+        }
+
+        .action-item.today {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border-left: 4px solid #ff9800;
+        }
+
+        .action-item.upcoming {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border-left: 4px solid #9c27b0;
+        }
+
+        .action-item.completed {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            border-left: 4px solid #4caf50;
+            opacity: 0.7;
+        }
+
+        .action-item:hover:not(.completed) {
+            transform: translateX(4px);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            flex-shrink: 0;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-dark);
+        }
+
+        .action-plant {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .action-timing {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .action-timing.overdue {
+            color: #f44336;
+        }
+
+        .action-timing.today {
+            color: #ff9800;
+        }
+
+        .action-timing.upcoming {
+            color: #9c27b0;
+        }
+
+        .action-timing.completed {
+            color: #4caf50;
+        }
+
+        .complete-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-green);
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .complete-btn.completed {
+            background: var(--accent-green);
+            position: relative;
+        }
+
+        .complete-btn.completed::after {
+            content: '✓';
+            color: var(--white);
+            font-size: 0.7rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .dashboard-title {
+                font-size: 2rem;
+            }
+
+            .plants-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .plant-card-inner {
+                grid-template-columns: 120px 1fr;
+                height: 180px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .plant-card-inner {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .plant-image-container {
+                height: 120px;
+            }
+
+            .plant-content {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="page">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="container">
+                <h1 class="dashboard-title">🌿 Garden Dashboard</h1>
+                <p class="dashboard-subtitle">Monitor and care for your indoor plant collection</p>
+                <div
+                    style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: var(--border-radius); margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
+                    💡 <strong>Welcome to your plant dashboard!</strong> View all your plants at a glance, track their
+                    care schedules, and never miss a watering or feeding again. Click on any plant to view detailed care
+                    information.
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Plants Section -->
+            <div class="plants-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🪴 Your Plants</h2>
+                        <p style="color: var(--text-light); margin: 0; font-size: 0.9rem;">Each card shows your plant's
+                            care requirements and current status. Hover to see edit/delete options.</p>
+                    </div>
+                    <button class="add-plant-btn" onclick="addPlant()">
+                        ➕ Add Indoor Plant
+                    </button>
+                </div>
+
+                <div class="plants-grid">
+                    <!-- Peace Lily -->
+                    <div class="plant-card">
+                        <div class="plant-card-inner">
+                            <div class="plant-image-container">
+                                <img src="https://sargentsgardens.com/wp-content/uploads/2024/12/Photo-Dec-17-2024-10-00-28-AM-scaled.jpg"
+                                    alt="Peace Lily" class="plant-image">
+                                <div class="plant-badges">
+                                    <span class="badge easy">Easy</span>
+                                </div>
+                                <div class="plant-actions">
+                                    <button class="action-btn edit-btn" onclick="editPlant(2)">✏️</button>
+                                    <button class="action-btn delete-btn" onclick="deletePlant(2)">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="plant-content">
+                                <div class="plant-header">
+                                    <div class="plant-name">Peace Lily</div>
+                                    <div class="scientific-name">Spathiphyllum</div>
+                                </div>
+
+                                <div class="plant-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-icon">☀️</span>
+                                        <span class="stat-label">Light:</span>
+                                        <span class="stat-value">Medium</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">💧</span>
+                                        <span class="stat-label">Water:</span>
+                                        <span class="stat-value">7 days</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">🥤</span>
+                                        <span class="stat-label">Volume:</span>
+                                        <span class="stat-value">200ml</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">🌱</span>
+                                        <span class="stat-label">Feed:</span>
+                                        <span class="stat-value">14 days</span>
+                                    </div>
+                                </div>
+
+                                <div class="plant-footer">
+                                    <div class="last-care">
+                                        Last watered: 3 days ago<br>
+                                        Last fed: 8 days ago
+                                    </div>
+                                    <button class="view-btn" onclick="viewPlant(2)">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monstera -->
+                    <div class="plant-card">
+                        <div class="plant-card-inner">
+                            <div class="plant-image-container">
+                                <img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400&h=200&fit=crop"
+                                    alt="Monstera" class="plant-image">
+                                <div class="plant-badges">
+                                    <span class="badge medium">Medium</span>
+                                </div>
+                                <div class="plant-actions">
+                                    <button class="action-btn edit-btn" onclick="editPlant(1)">✏️</button>
+                                    <button class="action-btn delete-btn" onclick="deletePlant(1)">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="plant-content">
+                                <div class="plant-header">
+                                    <div class="plant-name">Monstera Deliciosa</div>
+                                    <div class="scientific-name">Monstera deliciosa</div>
+                                </div>
+
+                                <div class="plant-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-icon">☀️</span>
+                                        <span class="stat-label">Light:</span>
+                                        <span class="stat-value">Bright</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">💧</span>
+                                        <span class="stat-label">Water:</span>
+                                        <span class="stat-value">10 days</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">🥤</span>
+                                        <span class="stat-label">Volume:</span>
+                                        <span class="stat-value">300ml</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">🌱</span>
+                                        <span class="stat-label">Feed:</span>
+                                        <span class="stat-value">21 days</span>
+                                    </div>
+                                </div>
+
+                                <div class="plant-footer">
+                                    <div class="last-care">
+                                        Last watered: Yesterday<br>
+                                        Last fed: 12 days ago
+                                    </div>
+                                    <button class="view-btn" onclick="viewPlant(1)">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Snake Plant -->
+                    <div class="plant-card">
+                        <div class="plant-card-inner">
+                            <div class="plant-image-container">
+                                <img src="https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=400&h=200&fit=crop"
+                                    alt="Snake Plant" class="plant-image">
+                                <div class="plant-badges">
+                                    <span class="badge easy">Easy</span>
+                                </div>
+                                <div class="plant-actions">
+                                    <button class="action-btn edit-btn" onclick="editPlant(3)">✏️</button>
+                                    <button class="action-btn delete-btn" onclick="deletePlant(3)">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="plant-content">
+                                <div class="plant-header">
+                                    <div class="plant-name">Snake Plant</div>
+                                    <div class="scientific-name">Sansevieria trifasciata</div>
+                                </div>
+
+                                <div class="plant-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-icon">☀️</span>
+                                        <span class="stat-label">Light:</span>
+                                        <span class="stat-value">Any</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">💧</span>
+                                        <span class="stat-label">Water:</span>
+                                        <span class="stat-value">21 days</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">🥤</span>
+                                        <span class="stat-label">Volume:</span>
+                                        <span class="stat-value">150ml</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-icon">🌱</span>
+                                        <span class="stat-label">Feed:</span>
+                                        <span class="stat-value">60 days</span>
+                                    </div>
+                                </div>
+
+                                <div class="plant-footer">
+                                    <div class="last-care">
+                                        Last watered: 15 days ago<br>
+                                        Last fed: 45 days ago
+                                    </div>
+                                    <button class="view-btn" onclick="viewPlant(3)">Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Stats Overview -->
+                <div class="stats-overview">
+                    <h2 class="section-title">📊 Garden Overview</h2>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        Quick stats about your entire garden collection and overall health metrics.
+                    </p>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">3</div>
+                            <div class="stat-text">Total Plants</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">2</div>
+                            <div class="stat-text">Need Water Soon</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">1</div>
+                            <div class="stat-text">Need Fertilizer</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">92%</div>
+                            <div class="stat-text">Health Score</div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--cream); padding: 1rem; border-radius: var(--border-radius); border-left: 4px solid var(--accent-green);">
+                        <strong>💡 Garden Tip of the Day:</strong> Winter months require less frequent watering. Check
+                        soil moisture before watering to prevent root rot.
+                    </div>
+                </div>
+
+                <!-- Actions Panel -->
+                <div class="actions-panel">
+                    <h2 class="section-title">📅 Care Schedule</h2>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        All your plant care tasks organized by priority. Click the circle to mark tasks complete.
+                    </p>
+
+                    <div class="action-list">
+                        <!-- Overdue Actions -->
+                        <div
+                            style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(244, 67, 54, 0.1); border-radius: var(--border-radius); border-left: 3px solid #f44336;">
+                            <strong style="color: #f44336;">🚨 Urgent - Overdue Tasks</strong>
+                        </div>
+                        <div class="action-item urgent" onclick="toggleComplete(this)">
+                            <div class="action-icon">💧</div>
+                            <div class="action-content">
+                                <div class="action-title">Water Snake Plant</div>
+                                <div class="action-plant">Sansevieria trifasciata</div>
+                                <div class="action-timing overdue">6 days overdue</div>
+                            </div>
+                            <button class="complete-btn"
+                                onclick="event.stopPropagation(); completeAction(this)"></button>
+                        </div>
+
+                        <!-- Today's Actions -->
+                        <div
+                            style="margin: 1.5rem 0 1rem 0; padding: 0.5rem; background: rgba(255, 152, 0, 0.1); border-radius: var(--border-radius); border-left: 3px solid #ff9800;">
+                            <strong style="color: #ff9800;">📅 Due Today</strong>
+                        </div>
+                        <div class="action-item today" onclick="toggleComplete(this)">
+                            <div class="action-icon">🌱</div>
+                            <div class="action-content">
+                                <div class="action-title">Fertilize Monstera</div>
+                                <div class="action-plant">Monstera deliciosa</div>
+                                <div class="action-timing today">Due today</div>
+                            </div>
+                            <button class="complete-btn"
+                                onclick="event.stopPropagation(); completeAction(this)"></button>
+                        </div>
+
+                        <div class="action-item today" onclick="toggleComplete(this)">
+                            <div class="action-icon">🍃</div>
+                            <div class="action-content">
+                                <div class="action-title">Clean Leaves</div>
+                                <div class="action-plant">Peace Lily</div>
+                                <div class="action-timing today">Monthly maintenance</div>
+                            </div>
+                            <button class="complete-btn"
+                                onclick="event.stopPropagation(); completeAction(this)"></button>
+                        </div>
+
+                        <!-- Upcoming Actions -->
+                        <div
+                            style="margin: 1.5rem 0 1rem 0; padding: 0.5rem; background: rgba(156, 39, 176, 0.1); border-radius: var(--border-radius); border-left: 3px solid #9c27b0;">
+                            <strong style="color: #9c27b0;">🔮 Coming Up</strong>
+                        </div>
+                        <div class="action-item upcoming" onclick="toggleComplete(this)">
+                            <div class="action-icon">💧</div>
+                            <div class="action-content">
+                                <div class="action-title">Water Peace Lily</div>
+                                <div class="action

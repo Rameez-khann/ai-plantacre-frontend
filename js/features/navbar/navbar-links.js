@@ -4,10 +4,14 @@ export const navbarLinks = [
         text: 'Home',
         link: '/'
     },
-    // {
-    //     text: 'About',
-    //     link: '/about'
-    // },
+    {
+        text: 'Dashboard',
+        link: '/dashboard.html'
+    },
+      {
+        text: 'Notifications',
+        link: '/notifications.html'
+    },
     {
         text: 'Indoor Plants',
         link: '/indoor-plants.html'

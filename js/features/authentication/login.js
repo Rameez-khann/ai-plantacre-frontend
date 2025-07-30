@@ -29,7 +29,7 @@ import { showLoading } from "./auth.js";
 
             try {
                 const result = await login(email, password);
-                setToken(result.token);
+                saveUser(result.token);
                 showAlert('Login successful!','success');
                 // window.location.href = 'dashboard.html';
             } catch (error) {

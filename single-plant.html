@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peace Lily Care Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Dashboard-specific styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: var(--white);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+            opacity: 0.1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .plant-header {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .plant-info-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .plant-image-container {
+            position: relative;
+        }
+
+        .plant-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .care-level-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-green);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .plant-details h1 {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .scientific-name {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .plant-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .spec-item {
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .spec-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .plant-notes {
+            background: linear-gradient(135deg, var(--light-green), var(--cream));
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .care-form {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            height: fit-content;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--cream);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        .slider-container {
+            position: relative;
+            margin: 1rem 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--cream);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            cursor: pointer;
+            border: none;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .toggle-option {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--cream);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .toggle-option.active {
+            background: var(--accent-green);
+            color: var(--white);
+            border-color: var(--secondary-green);
+        }
+
+        .toggle-option:hover {
+            transform: translateY(-1px);
+        }
+
+        .notifications-panel {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            position: sticky;
+            top: 2rem;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .notification {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border-left: 4px solid #28a745;
+        }
+
+        .notification.warning {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 4px solid #ffc107;
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+            border-left: 4px solid #17a2b8;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-hover);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .value-display {
+            font-weight: 600;
+            color: var(--accent-green);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .care-history {
+            background: var(--cream);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .care-history h4 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .care-timeline {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notifications-panel {
+                position: static;
+            }
+
+            .plant-info-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .plant-details h1 {
+                font-size: 2rem;
+            }
+
+            .plant-specs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .toggle-group {
+                flex-direction: column;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="#" class="back-btn">← Back to Plants</a>
+                    <div>
+                        <h1 style="margin: 0; font-size: 1.5rem;">Plant Care Dashboard</h1>
+                        <p style="margin: 0; opacity: 0.9;">Track daily care and get AI-powered advice</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Plant Information Header -->
+            <div class="plant-header">
+                <div class="plant-info-grid">
+                    <div class="plant-image-container">
+                        <img src="https://sargentsgardens.com/wp-content/uploads/2024/12/Photo-Dec-17-2024-10-00-28-AM-scaled.jpg"
+                            alt="Peace Lily" class="plant-image">
+                        <div class="care-level-badge">Easy Care</div>
+                    </div>
+
+                    <div class="plant-details">
+                        <h1>Peace Lily</h1>
+                        <p class="scientific-name">Spathiphyllum</p>
+
+                        <div class="plant-specs">
+                            <div class="spec-item">
+                                <div class="spec-icon">☀️</div>
+                                <div class="spec-label">Light</div>
+                                <div class="spec-value">Medium</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-icon">💧</div>
+                                <div class="spec-label">Water</div>
+                                <div class="spec-value">Every 7 days</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-icon">🥤</div>
+                                <div class="spec-label">Volume</div>
+                                <div class="spec-value">200ml</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-icon">🌱</div>
+                                <div class="spec-label">Fertilizer</div>
+                                <div class="spec-value">Every 14 days</div>
+                            </div>
+                        </div>
+
+                        <div class="plant-notes">
+                            <strong>Care Notes:</strong> Prefers humid conditions and indirect light. Soil should be
+                            peat-based, well-aerated potting mix. Use Miracle-Gro Indoor Plant Food or Westland
+                            Houseplant Feed for optimal growth.
+                        </div>
+
+                        <div class="care-history">
+                            <h4>Recent Care History</h4>
+                            <div class="care-timeline">
+                                <div>💧 Last watered: 3 days ago (on schedule)</div>
+                                <div>🌱 Last fertilized: 8 days ago</div>
+                                <div>✨ Overall health: Excellent</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="main-grid">
+                <!-- Daily Input Form -->
+                <div class="care-form">
+                    <h2 class="section-title">📝 Daily Care Log</h2>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Recording today's care for your Peace
+                        Lily</p>
+
+                    <form id="careForm">
+                        <!-- Sunlight -->
+                        <div class="form-group">
+                            <label class="form-label">☀️ How much sunlight did it receive today?</label>
+                            <div class="slider-container">
+                                <input type="range" class="slider" id="sunlight" min="0" max="12" value="4">
+                                <div class="value-display" id="sunlightValue">4 hours (Ideal for Peace Lily)</div>
+                                <div class="slider-labels">
+                                    <span>No light</span>
+                                    <span>Indirect</span>
+                                    <span>Direct sun</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Watering -->
+                        <div class="form-group">
+                            <label class="form-label">💧 Was it watered today? (Recommended: 200ml)</label>
+                            <div class="toggle-group">
+                                <div class="toggle-option" data-value="yes">Yes</div>
+                                <div class="toggle-option active" data-value="no">No</div>
+                            </div>
+                        </div>
+
+                        <!-- Nutrients -->
+                        <div class="form-group">
+                            <label class="form-label">🌱 Fertilizer added? (Miracle-Gro or Westland)</label>
+                            <div class="toggle-group">
+                                <div class="toggle-option" data-value="yes">Yes</div>
+                                <div class="toggle-option active" data-value="no">No</div>
+                            </div>
+                        </div>
+
+                        <!-- Temperature -->
+                        <div class="form-group">
+                            <label class="form-label">🌡️ Temperature approximately?</label>
+                            <select class="form-input" id="temperature">
+                                <option value="">Select temperature range</option>
+                                <option value="below-15">Below 15°C (Too Cold)</option>
+                                <option value="15-20">15-20°C (Cool)</option>
+                                <option value="20-25" selected>20-25°C (Perfect for Peace Lily)</option>
+                                <option value="25-30">25-30°C (Warm)</option>
+                                <option value="above-30">Above 30°C (Too Hot)</option>
+                            </select>
+                        </div>
+
+                        <!-- Humidity -->
+                        <div class="form-group">
+                            <label class="form-label">💨 Humidity approximately? (Peace Lilies love humidity!)</label>
+                            <div class="slider-container">
+                                <input type="range" class="slider" id="humidity" min="20" max="90" value="65">
+                                <div class="value-display" id="humidityValue">65% (Excellent for Peace Lily)</div>
+                                <div class="slider-labels">
+                                    <span>Dry (20%)</span>
+                                    <span>Moderate</span>
+                                    <span>Humid (90%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            🤖 Get AI Care Advice for Peace Lily
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Notifications/Advice Panel -->
+                <div class="notifications-panel">
+                    <h2 class="section-title">🔔 Peace Lily Care Advice</h2>
+
+                    <div class="notification success">
+                        <div class="notification-icon">✅</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Perfect Humidity!</div>
+                            <div class="notification-text">Your Peace Lily is enjoying ideal humidity levels. This
+                                promotes healthy growth and prevents brown leaf tips.</div>
+                        </div>
+                    </div>
+
+                    <div class="notification warning">
+                        <div class="notification-icon">⚠️</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Watering Due Soon</div>
+                            <div class="notification-text">Your Peace Lily should be watered in 4 days. Check soil
+                                moisture - it should be slightly moist but not soggy.</div>
+                        </div>
+                    </div>
+
+                    <div class="notification info">
+                        <div class="notification-icon">💡</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Pro Tip</div>
+                            <div class="notification-text">Peace Lilies will droop when they need water - it's their way
+                                of asking! Don't worry, they bounce back quickly.</div>
+                        </div>
+                    </div>
+
+                    <div class="notification info">
+                        <div class="notification-icon">🌱</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Fertilizer Reminder</div>
+                            <div class="notification-text">Next feeding due in 6 days. Use diluted Miracle-Gro or
+                                Westland Houseplant Feed as recommended.</div>
+                        </div>
+                    </div>
+
+                    <div class="notification info">
+                        <div class="notification-icon">🍃</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Leaf Care</div>
+                            <div class="notification-text">Wipe leaves monthly with a damp cloth to keep them glossy and
+                                help photosynthesis.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle buttons
+            const toggleGroups = document.querySelectorAll('.toggle-group');
+            toggleGroups.forEach(group => {
+                const options = group.querySelectorAll('.toggle-option');
+                options.forEach(option => {
+                    option.addEventListener('click', function () {
+                        options.forEach(o => o.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                });
+            });
+
+            // Slider updates with Peace Lily specific feedback
+            const sunlightSlider = document.getElementById('sunlight');
+            const sunlightValue = document.getElementById('sunlightValue');
+            sunlightSlider.addEventListener('input', function () {
+                const hours = parseInt(this.value);
+                let feedback = '';
+                if (hours <= 2) feedback = '(Too low for Peace Lily)';
+                else if (hours <= 6) feedback = '(Perfect for Peace Lily)';
+                else feedback = '(Too much direct sun)';
+
+                sunlightValue.textContent = hours + ' hours ' + feedback;
+            });
+
+            const humiditySlider = document.getElementById('humidity');
+            const humidityValue = document.getElementById('humidityValue');
+            humiditySlider.addEventListener('input', function () {
+                const humidity = parseInt(this.value);
+                let feedback = '';
+                if (humidity < 40) feedback = '(Too dry for Peace Lily)';
+                else if (humidity <= 70) feedback = '(Excellent for Peace Lily)';
+                else feedback = '(Very humid, watch for fungal issues)';
+
+                humidityValue.textContent = humidity + '% ' + feedback;
+            });
+
+            // Form submission
+            const form = document.getElementById('careForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<div class="loading"></div> Analyzing Peace Lily care...';
+
+                // Simulate AI processing specific to Peace Lily
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '🤖 Get AI Care Advice for Peace Lily';
+
+                    updateNotifications();
+                }, 2000);
+            });
+
+            function updateNotifications() {
+                const notificationsPanel = document.querySelector('.notifications-panel');
+                const timestamp = new Date().toLocaleTimeString();
+
+                const newNotification = document.createElement('div');
+                newNotification.className = 'notification success';
+                newNotification.innerHTML = `
+                    <div class="notification-icon">🆕</div>
+                    <div class="notification-content">
+                        <div class="notification-title">Care Logged Successfully</div>
+                        <div class="notification-text">Peace Lily care data recorded at ${timestamp}. AI analysis complete - your plant is thriving!</div>
+                    </div>
+                `;
+
+                notificationsPanel.insertBefore(newNotification, notificationsPanel.children[1]);
+
+                // Remove oldest notification if more than 6
+                const notifications = notificationsPanel.querySelectorAll('.notification');
+                if (notifications.length > 6) {
+                    notifications[notifications.length - 1].remove();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
