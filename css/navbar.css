@@ -40,3 +40,15 @@
         .nav-links a:hover {
             color: var(--primary-green);
         }
+
+                /* Navigation Right Container */
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Notification Container Positioning */
+        #notifications {
+            position: relative;
+            margin-left: 20px;
+        }

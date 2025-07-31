@@ -29,21 +29,45 @@ export function navbar() {
             </div>
             <ul class="nav-links">
                 ${navItems}
+                <div id="notifications"></div>
             </ul>
         </div>
     </div>
 </nav>
+
+<script src="./js/features/notifications/notifications.js" type="module"></script>
+
     `;
 }
 
 // ✅ Auto-run: inject navbar on load
 document.addEventListener("DOMContentLoaded", () => {
+
+    
     const wrapper = document.createElement("div");
     wrapper.innerHTML = navbar();
 
     const cssLink = wrapper.querySelector("link");
     const navElement = wrapper.querySelector("nav");
+    const scriptElement = wrapper.querySelector("script");
 
     if (cssLink) document.head.appendChild(cssLink);
     if (navElement) document.body.prepend(navElement);
+    if (scriptElement) document.body.appendChild(scriptElement);
+
+
+  const script = document.createElement("script");
+    script.type = "module";
+    script.src = "/js/features/notifications/notifications.js";
+    
+    script.onload = () => {
+        // Wait a bit to ensure window.markAsRead etc. are ready
+        // setTimeout(() => {
+        //     if (window.initNotifications) {
+        //         // window.initNotifications(); // manual trigger
+        //     }
+        // }, 0);
+    };
+
+    document.body.appendChild(script);
 });

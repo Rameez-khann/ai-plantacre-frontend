@@ -4,104 +4,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Plant Care</title>
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2907/2907253.png">
+    <title>Smart Indoor Plant Care - AI-Powered Plant Health Assistant</title>
+    <meta name="description"
+        content="Transform your indoor gardening with AI-powered plant care guidance. No sensors needed - just personalized care recommendations for thriving houseplants.">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/home.css">
 </head>
 
 <body>
-    <div id="navbar"></div>
-
-    <!-- Hero Section -->
-    <header class="hero" id="home">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>Welcome to Smart Plant Care</h1>
-            <p>Your AI assistant for healthy indoor plants</p>
-            <a href="#features" class="btn">Get Started</a>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content container">
+            <div class="hero-text">
+                <span class="hero-badge">🌱 AI-Powered Plant Care</span>
+                <h1>Smart Indoor Plant Care</h1>
+                <p class="hero-subtitle">Your intelligent AI assistant for personalized plant care – transforming
+                    beginners into confident plant parents, no devices needed.</p>
+                <p class="hero-description">Join thousands of plant enthusiasts who've discovered the secret to thriving
+                    indoor gardens through smart, science-backed care recommendations.</p>
+                <div class="hero-buttons">
+                    <a href="/login" class="cta-button primary">Get Started Free</a>
+                    <a href="#how-it-works" class="cta-button secondary">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">10,000+</span>
+                        <span class="stat-label">Happy Plant Parents</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Plant Varieties Supported</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Plant Survival Rate</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <!-- Features Section -->
-            <section class="section" id="features">
-                <h2 class="section-title">Main Features</h2>
-                <div class="features-grid">
-                    <div class="feature card fade-in">
-                        <div class="feature-icon">🤖</div>
-                        <h3>Helpful Tips</h3>
-                        <p>Based on the type of plant and simple daily info you provide, the system gives easy advice on
-                            what to do—like how much water or light your plant might need.</p>
-                    </div>
-                    <div class="feature card fade-in">
-                        <div class="feature-icon">📊</div>
-                        <h3>Daily Tracking</h3>
-                        <p>It keeps track of sunlight, temperature, and watering habits to learn how your plant is doing
-                            and offer better care suggestions.</p>
-                    </div>
-                    <div class="feature card fade-in">
-                        <div class="feature-icon">🔔</div>
-                        <h3>Reminders</h3>
-                        <p>You’ll get gentle reminders when it’s time to water your plant, add nutrients, or check
-                            sunlight—so you don’t forget.</p>
-                    </div>
-                    <div class="feature card fade-in">
-                        <div class="feature-icon">📱</div>
-                        <h3>Works Anywhere</h3>
-                        <p>You can open the system in any browser—on your phone, tablet, or computer. There’s nothing to
-                            install, just use the web link.</p>
+        <div class="hero-image">
+            <div class="hero-image-container">
+                <img src="https://gardeningsg.nparks.gov.sg/images/Plants/aloevera5_jacquelinechua.jpg"
+                    alt="Beautiful collection of thriving indoor plants in modern home setting" />
+                <div class="hero-image-overlay">
+                    <div class="floating-card">
+                        <span class="plant-icon">🌿</span>
+                        <!-- <div class="card-content">
+                            <h4>Monstera Deliciosa</h4>
+                            <p>Healthy & Growing</p>
+                            <div class="care-indicators">
+                                <span class="indicator water">💧</span>
+                                <span class="indicator light">☀️</span>
+                                <span class="indicator nutrients">🌱</span>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
-            </section>
-
-
-            <!-- Dashboard Section -->
-            <section class="section">
-                <div class="dashboard">
-                    <div class="dashboard-header">
-                        <h2>Plant Care Dashboard</h2>
-                        <button class="btn btn-secondary" id="refreshBtn">
-                            <span id="refreshText">Refresh Data</span>
-                            <div class="loading" id="loadingSpinner" style="display: none;"></div>
-                        </button>
-                    </div>
-                    <div class="plant-stats">
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalPlants">12</div>
-                            <div class="stat-label">Total Plants</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="needsWater">3</div>
-                            <div class="stat-label">Need Water</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="healthyPlants">9</div>
-                            <div class="stat-label">Healthy</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="avgHumidity">65%</div>
-                            <div class="stat-label">Avg Humidity</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Plant Gallery -->
-            <section class="section" id="plants">
-                <h2 class="section-title">My Plants</h2>
-                <div class="plant-gallery" id="plantGallery">
-                    <!-- Plants will be populated by JavaScript -->
-                </div>
-            </section>
+            </div>
         </div>
-    </main>
+    </section>
+
+    <!-- FEATURES HIGHLIGHT -->
+    <section class="features-highlight container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>AI-Powered Intelligence</h3>
+                <p>Advanced algorithms analyze your plant's needs and environmental conditions to provide precise care
+                    recommendations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>No Sensors Required</h3>
+                <p>Simply input your observations - our AI does the rest. Perfect for any budget and living situation.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Personalized Care Plans</h3>
+                <p>Tailored recommendations based on your specific plants, home environment, and care preferences.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="how-it-works container">
+        <div class="section-header">
+            <h2>How Smart Plant Care Works</h2>
+            <p class="section-subtitle">Four simple steps to transform your plant care routine and achieve remarkable
+                results</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-visual">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=400&h=300"
+                        alt="Person logging into plant care app" />
+                    <div class="step-number">1</div>
+                </div>
+                <div class="step-content">
+                    <h3>Create Your Plant Profile</h3>
+                    <p class="step-description">Sign up in seconds and create your personalized plant care dashboard.
+                        Set your experience level, home conditions, and care preferences.</p>
+                    <ul class="step-features">
+                        <li>Quick 2-minute setup</li>
+                        <li>Secure account protection</li>
+                        <li>Customizable preferences</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-visual">
+                    <img src="https://images.unsplash.com/photo-1509423350716-97f2360af704?auto=format&fit=crop&w=400&h=300"
+                        alt="Various indoor plants selection" />
+                    <div class="step-number">2</div>
+                </div>
+                <div class="step-content">
+                    <h3>Select Your Plant Companions</h3>
+                    <p class="step-description">Browse our extensive database of over 500 indoor plants. Add multiple
+                        plants to monitor and receive specialized care guidance for each variety.</p>
+                    <ul class="step-features">
+                        <li>500+ plant varieties supported</li>
+                        <li>Detailed plant profiles</li>
+                        <li>Beginner-friendly options highlighted</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-visual">
+                    <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=400&h=300"
+                        alt="Person checking plant conditions and making notes" />
+                    <div class="step-number">3</div>
+                </div>
+                <div class="step-content">
+                    <h3>Track Plant Conditions</h3>
+                    <p class="step-description">Input simple observations about sunlight exposure, watering frequency,
+                        and nutrient status. Our AI learns your patterns and environment.</p>
+                    <ul class="step-features">
+                        <li>Quick daily or weekly check-ins</li>
+                        <li>Photo documentation support</li>
+                        <li>Environmental condition tracking</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-visual">
+                    <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=400&h=300"
+                        alt="Healthy thriving plants with care notifications" />
+                    <div class="step-number">4</div>
+                </div>
+                <div class="step-content">
+                    <h3>Receive Smart Recommendations</h3>
+                    <p class="step-description">Get timely, personalized care suggestions, watering reminders, and
+                        troubleshooting advice to keep your plants thriving year-round.</p>
+                    <ul class="step-features">
+                        <li>Intelligent watering schedules</li>
+                        <li>Seasonal care adjustments</li>
+                        <li>Problem diagnosis & solutions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFITS SECTION -->
+    <section class="benefits container">
+        <div class="benefits-content">
+            <div class="benefits-text">
+                <h2>Why Choose Smart Plant Care?</h2>
+                <p class="benefits-subtitle">Experience the difference that intelligent, personalized plant care makes
+                    in your home</p>
+
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">✨</div>
+                        <div class="benefit-text">
+                            <h4>Stress-Free Plant Parenting</h4>
+                            <p>Eliminate guesswork and anxiety with clear, actionable care instructions tailored to your
+                                lifestyle.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">💰</div>
+                        <div class="benefit-text">
+                            <h4>Save Money on Plant Replacements</h4>
+                            <p>Prevent plant deaths with proactive care alerts and early problem detection.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🏠</div>
+                        <div class="benefit-text">
+                            <h4>Transform Your Living Space</h4>
+                            <p>Create a lush, healthy indoor environment that improves air quality and mental wellbeing.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📚</div>
+                        <div class="benefit-text">
+                            <h4>Learn & Grow Your Expertise</h4>
+                            <p>Develop genuine plant care skills with educational insights and expert tips.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefits-image">
+                <img src="https://images.unsplash.com/photo-1583160247711-2191776b4b25?auto=format&fit=crop&w=600&h=500"
+                    alt="Beautiful indoor garden with various healthy plants" />
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="cta-preview container">
+        <div class="cta-content">
+            <h2>Start Your Plant Care Journey Today</h2>
+            <p class="cta-subtitle">Discover which indoor plants are perfect for your home environment and experience
+                level</p>
+            <p class="cta-description">Browse our comprehensive plant database featuring detailed care guides,
+                difficulty ratings, and compatibility assessments for your specific living conditions.</p>
+            <div class="cta-buttons">
+                <a href="/plants" class="cta-button primary">Explore Plant Library</a>
+                <a href="/login" class="cta-button secondary">Start Free Trial</a>
+            </div>
+        </div>
+
+        <div class="plant-preview-cards">
+            <div class="plant-card">
+                <img src="https://images.unsplash.com/photo-1586500036706-41963de24d8b?auto=format&fit=crop&w=300&h=200"
+                    alt="Snake Plant - Perfect for beginners" />
+                <h4>Snake Plant</h4>
+                <span class="difficulty-badge beginner">Beginner</span>
+            </div>
+            <div class="plant-card">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=300&h=200"
+                    alt="Monstera Deliciosa - Popular houseplant" />
+                <h4>Monstera Deliciosa</h4>
+                <span class="difficulty-badge intermediate">Intermediate</span>
+            </div>
+            <div class="plant-card">
+                <img src="https://images.unsplash.com/photo-1509423350716-97f2360af704?auto=format&fit=crop&w=300&h=200"
+                    alt="Fiddle Leaf Fig - Advanced care needed" />
+                <h4>Fiddle Leaf Fig</h4>
+                <span class="difficulty-badge advanced">Advanced</span>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- NO DEVICES EXPLANATION -->
+    <section class="no-devices container">
+        <div class="no-devices-content">
+            <div class="no-devices-text">
+                <h2>Zero Gadgets. Maximum Results.</h2>
+                <p class="no-devices-subtitle">Our revolutionary approach combines artificial intelligence with your
+                    natural observations</p>
+                <p class="no-devices-description">Unlike expensive sensor-based systems, our AI doesn't need costly
+                    gadgets or complex installations. Simply share your honest observations about watering schedules,
+                    light conditions, and plant appearance – our intelligent system does the rest.</p>
+
+                <div class="no-devices-features">
+                    <div class="feature-point">
+                        <span class="feature-icon">🏡</span>
+                        <div>
+                            <h4>Perfect for Any Home</h4>
+                            <p>Works in apartments, houses, dorms, or offices without installation</p>
+                        </div>
+                    </div>
+                    <div class="feature-point">
+                        <span class="feature-icon">💡</span>
+                        <div>
+                            <h4>Budget-Friendly Solution</h4>
+                            <p>No expensive sensors or monitoring devices required</p>
+                        </div>
+                    </div>
+                    <div class="feature-point">
+                        <span class="feature-icon">🔋</span>
+                        <div>
+                            <h4>Always Available</h4>
+                            <p>No batteries, WiFi issues, or technical maintenance needed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-devices-visual">
+                <div class="device-comparison">
+                    <div class="traditional-way">
+                        <h4>❌ Traditional Smart Devices</h4>
+                        <ul>
+                            <li>Expensive sensors ($50-200+)</li>
+                            <li>Complex setup & installation</li>
+                            <li>WiFi connectivity issues</li>
+                            <li>Battery replacements</li>
+                            <li>Limited plant compatibility</li>
+                        </ul>
+                    </div>
+                    <div class="our-way">
+                        <h4>✅ Our Smart Approach</h4>
+                        <ul>
+                            <li>Free AI-powered guidance</li>
+                            <li>Instant setup in minutes</li>
+                            <li>Works anywhere, anytime</li>
+                            <li>No maintenance required</li>
+                            <li>Supports 500+ plants</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
+    <!-- FOOTER -->
+    <footer class="footer container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Smart Indoor Plant Care</h3>
+                <p>Transforming plant care with intelligent, personalized guidance for thriving indoor gardens.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <nav>
+                    <a href="/plants">Plant Library</a>
+                    <a href="/care-guides">Care Guides</a>
+                    <a href="/about">About Us</a>
+                    <a href="/blog">Plant Care Blog</a>
+                </nav>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <nav>
+                    <a href="/help">Help Center</a>
+                    <a href="/contact">Contact Support</a>
+                    <a href="/faq">FAQ</a>
+                    <a href="/community">Community</a>
+                </nav>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <nav>
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/cookies">Cookie Policy</a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Smart Indoor Plant Care System. All rights reserved.</p>
+            <p class="footer-tagline">Growing healthier plants, one smart recommendation at a time. 🌿</p>
+        </div>
+    </footer>
+
+    <script type="module" src="/js/features/navbar/navbar.js"></script>
+    <script type="module" src="/js/features/home/home.js"></script>
 </body>
-<script src="js/index.js"></script>
-<script src="js/navbar.js"></script>
 
 </html>

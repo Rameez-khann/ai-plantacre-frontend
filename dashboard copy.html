@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Care Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+
+<body>
+    <div class="page">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="container">
+                <h1 class="dashboard-title">🌿 Plant Care Dashboard</h1>
+                <p class="dashboard-subtitle">Track daily care and get AI-powered plant advice</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Selected Plants Summary -->
+            <div class="selected-plants">
+                <h2 class="section-title">🪴 Your Plants</h2>
+                <div class="plants-grid">
+                    <div class="plant-card selected" data-plant="monstera">
+                        <div class="plant-image">🌿</div>
+                        <div class="plant-name">Monstera Deliciosa</div>
+                        <div class="last-care">Last watered: Yesterday<br>Last fed: 3 days ago</div>
+                    </div>
+                    <div class="plant-card" data-plant="succulent">
+                        <div class="plant-image">🌵</div>
+                        <div class="plant-name">Jade Plant</div>
+                        <div class="last-care">Last watered: 5 days ago<br>Last fed: 2 weeks ago</div>
+                    </div>
+                    <div class="plant-card" data-plant="fern">
+                        <div class="plant-image">🌱</div>
+                        <div class="plant-name">Boston Fern</div>
+                        <div class="last-care">Last watered: Today<br>Last fed: 1 week ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="main-grid">
+                <!-- Daily Input Form -->
+                <div class="care-form">
+                    <h2 class="section-title">📝 Daily Care Log</h2>
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Recording care for: <strong
+                            style="color: var(--primary-green);">Monstera Deliciosa</strong></p>
+
+                    <form id="careForm">
+                        <!-- Sunlight -->
+                        <div class="form-group">
+                            <label class="form-label">☀️ How much sunlight did it receive today?</label>
+                            <div class="slider-container">
+                                <input type="range" class="slider" id="sunlight" min="0" max="12" value="6">
+                                <div class="value-display" id="sunlightValue">6 hours</div>
+                                <div class="slider-labels">
+                                    <span>No sun</span>
+                                    <span>Partial</span>
+                                    <span>Full sun</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Watering -->
+                        <div class="form-group">
+                            <label class="form-label">💧 Was it watered today?</label>
+                            <div class="toggle-group">
+                                <div class="toggle-option" data-value="yes">Yes</div>
+                                <div class="toggle-option active" data-value="no">No</div>
+                            </div>
+                        </div>
+
+                        <!-- Nutrients -->
+                        <div class="form-group">
+                            <label class="form-label">🌱 Nutrient/Fertilizer added?</label>
+                            <div class="toggle-group">
+                                <div class="toggle-option" data-value="yes">Yes</div>
+                                <div class="toggle-option active" data-value="no">No</div>
+                            </div>
+                        </div>
+
+                        <!-- Temperature -->
+                        <div class="form-group">
+                            <label class="form-label">🌡️ Temperature approximately?</label>
+                            <select class="form-input" id="temperature">
+                                <option value="">Select temperature range</option>
+                                <option value="below-15">Below 15°C (Too Cold)</option>
+                                <option value="15-20">15-20°C (Cool)</option>
+                                <option value="20-25" selected>20-25°C (Ideal)</option>
+                                <option value="25-30">25-30°C (Warm)</option>
+                                <option value="above-30">Above 30°C (Too Hot)</option>
+                            </select>
+                        </div>
+
+                        <!-- Humidity -->
+                        <div class="form-group">
+                            <label class="form-label">💨 Humidity approximately?</label>
+                            <div class="slider-container">
+                                <input type="range" class="slider" id="humidity" min="20" max="90" value="60">
+                                <div class="value-display" id="humidityValue">60%</div>
+                                <div class="slider-labels">
+                                    <span>Dry (20%)</span>
+                                    <span>Moderate</span>
+                                    <span>Humid (90%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            🤖 Get AI Care Advice
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Notifications/Advice Panel -->
+                <div class="notifications-panel">
+                    <h2 class="section-title">🔔 Care Advice</h2>
+
+                    <div class="notification success">
+                        <div class="notification-icon">✅</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Great Job!</div>
+                            <div class="notification-text">Your Monstera is getting perfect light conditions. Keep it
+                                up!</div>
+                        </div>
+                    </div>
+
+                    <div class="notification warning">
+                        <div class="notification-icon">⚠️</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Water Reminder</div>
+                            <div class="notification-text">Your plant may need water tomorrow. Check soil moisture in
+                                the morning.</div>
+                        </div>
+                    </div>
+
+                    <div class="notification info">
+                        <div class="notification-icon">💡</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Pro Tip</div>
+                            <div class="notification-text">Consider adding humidity with a pebble tray during dry
+                                seasons.</div>
+                        </div>
+                    </div>
+
+                    <div class="notification info">
+                        <div class="notification-icon">📅</div>
+                        <div class="notification-content">
+                            <div class="notification-title">Feeding Schedule</div>
+                            <div class="notification-text">Next fertilizer application due in 4 days. Use diluted liquid
+                                fertilizer.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/features/navbar/navbar.js"></script>
+    <script type="module" src="/js/features/dashboard/dashboard.js"></script>
+</body>
+
+</html>
