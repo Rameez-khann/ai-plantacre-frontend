@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Plant Photo</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/identify-plant.css" />
+</head>
+
+<body>
+    <div class="container page">
+        <h1>Identify Your Plant</h1>
+
+        <div class="card" id="upload-area">
+            <input type="file" accept="image/*" id="plant-input" capture="environment" />
+            <button class="btn" id="upload-btn">Identify Plant</button>
+            <div id="preview-container"></div>
+            <div id="loading" class="loading" style="display: none;"></div>
+        </div>
+
+        <div class="card" id="instructions-card" style="margin-top: 40px; display: none;">
+            <h2>Care Instructions</h2>
+            <div id="instructions-content"></div>
+        </div>
+
+        <script type="module" src="/js/features//navbar/navbar.js"></script>
+        <script type="module" src="/js/features/identify-plants/identify-plants.js"></script>
+
+    </div>

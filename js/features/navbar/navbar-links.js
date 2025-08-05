@@ -16,6 +16,11 @@ export const navbarLinks = [
         text: 'Indoor Plants',
         link: '/indoor-plants.html'
     },
+
+       {
+        text: 'Identify Plant',
+        link: '/identify-plant.html'
+    },
     {
         text: 'Login',
         link: '/login.html'
