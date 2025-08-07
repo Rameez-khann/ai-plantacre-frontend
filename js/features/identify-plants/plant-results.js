@@ -3,6 +3,9 @@ import { plantResultsCSS } from "./plant-result-styles.js";
 export function displayPlantResults(resultData, targetElementId = 'plant-results') {
     const targetElement = document.getElementById(targetElementId);
     if (!targetElement) return;
+    if(!resultData){
+        targetElement.innerHTML = '';
+    }
 
     targetElement.innerHTML = createResultsHTML(resultData);
     targetElement.style.display = 'block';
@@ -11,13 +14,12 @@ export function displayPlantResults(resultData, targetElementId = 'plant-results
 
 function createResultsHTML(data) {
     const { isPlant, probability, classification } = data;
-    
+                // <p>Confidence: ${Math.round(probability * 100)}%</p>
     const headerHTML = `
         <div class="results-header">
             <div class="detection-status ${isPlant ? 'is-plant' : 'not-plant'}">
                 <i class="fas ${isPlant ? 'fa-seedling' : 'fa-times-circle'}"></i>
                 <h2>${isPlant ? 'Plant Detected!' : 'No Plant Detected'}</h2>
-                <p>Confidence: ${Math.round(probability * 100)}%</p>
             </div>
         </div>
     `+ plantResultsCSS;

@@ -175,6 +175,7 @@ const clearSelection = () => {
     previewContainer.classList.remove('show');
     updateUploadZoneState(false);
     hideActionButtons();
+    displayPlantResults(null)
     
     // Reset any error states
     uploadZone.classList.remove('error');
