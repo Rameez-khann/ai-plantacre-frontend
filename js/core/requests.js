@@ -2,6 +2,9 @@ const backendURL = 'http://localhost:5501'; // or your API base
 const headers = { 'Content-Type': 'application/json' };
 
 function normalizePath(path) {
+    if (/^(https?:)?\/\//i.test(path)) {
+    return path;
+  }
   return `${backendURL}/${path.replace(/^\/+/, '')}`;
 }
 

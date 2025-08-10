@@ -7,25 +7,98 @@
     <title>Upload Plant Photo</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/identify-plant.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="container page">
-        <h1>Identify Your Plant</h1>
-
-        <div class="card" id="upload-area">
-            <input type="file" accept="image/*" id="plant-input" capture="environment" />
-            <button class="btn" id="upload-btn">Identify Plant</button>
-            <div id="preview-container"></div>
-            <div id="loading" class="loading" style="display: none;"></div>
+        <div class="hero-section">
+            <h1><i class="fas fa-leaf"></i> Identify Your Plant</h1>
+            <p class="hero-subtitle">Upload a photo and discover your plant's species and care needs</p>
         </div>
 
-        <div class="card" id="instructions-card" style="margin-top: 40px; display: none;">
-            <h2>Care Instructions</h2>
-            <div id="instructions-content"></div>
+        <div class="tips-section">
+            <div class="card tips-card">
+                <h3><i class="fas fa-camera"></i> Photography Tips</h3>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <i class="fas fa-sun"></i>
+                        <span>Use natural lighting</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-eye"></i>
+                        <span>Include leaves & flowers</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-focus"></i>
+                        <span>Keep image in focus</span>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-crop"></i>
+                        <span>Fill the frame</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <script type="module" src="/js/features//navbar/navbar.js"></script>
-        <script type="module" src="/js/features/identify-plants/identify-plants.js"></script>
+        <div class="upload-section">
+            <div class="card upload-card" id="upload-area">
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3>Drop your plant photo here</h3>
+                        <p>or click to browse your files</p>
+                        <div class="upload-formats">
+                            <span><i class="fas fa-check"></i> JPG</span>
+                            <span><i class="fas fa-check"></i> PNG</span>
+                            <span><i class="fas fa-check"></i> HEIC</span>
+                        </div>
+                    </div>
+                    <input type="file" accept="image/*" id="plant-input" capture="environment" />
+                </div>
 
+                <div id="preview-container" class="preview-container"></div>
+
+                <div class="upload-actions">
+                    <button class="btn btn-primary" id="submit-btn" style="display: none;">
+                        <i class="fas fa-search"></i> Identify Plant
+                    </button>
+                    <button class="btn btn-secondary" id="clear-btn" style="display: none;">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+
+                <div id="loading" class="loading-container" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">
+                        <h4>Analyzing your plant...</h4>
+                        <p>Our AI is examining the image to identify your plant species</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="plant-results">
+
+        </div>
+
+        <div class="card results-card" id="instructions-card" style="display: none;">
+            <div class="results-header">
+                <i class="fas fa-seedling"></i>
+                <h2>Plant Care Instructions</h2>
+            </div>
+            <div id="instructions-content" class="instructions-content"></div>
+        </div>
+
+        <script type="module" src="/js/features/navbar/navbar.js"></script>
+        <!-- <script type="module" src="/js/features/identify-plants/identify-plants.js"></script> -->
+        <script type="module" src="/js/features/identify-plants/upload-plant.js"></script>
     </div>
+
+
+</body>
+
+</html>
