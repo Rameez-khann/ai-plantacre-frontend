@@ -8,10 +8,10 @@ export const navbarLinks = [
         text: 'Dashboard',
         link: '/dashboard.html'
     },
-      {
-        text: 'Notifications',
-        link: '/notifications.html'
-    },
+    //   {
+    //     text: 'Notifications',
+    //     link: '/notifications.html'
+    // },
     {
         text: 'Indoor Plants',
         link: '/indoor-plants.html'

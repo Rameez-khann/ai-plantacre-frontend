@@ -1,7 +1,8 @@
 
-import { showAlert } from "../../shared/alerts.js";
-import { validatePassword, validateEmail, showFormError, clearFormError } from "../../shared/forms.js";
-import { showLoading } from "./auth.js";
+import { showAlert } from "../../core/alerts.js";
+import { validatePassword, validateEmail, showFormError, clearFormError } from "../../core/forms.js";
+import { postRequest } from "../../core/requests.js";
+import { saveUser, showLoading } from "./auth.js";
 
 // Navbar
 
@@ -9,16 +10,16 @@ import { showLoading } from "./auth.js";
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            clearFormError('email');
+            clearFormError('username');
             clearFormError('password');
 
-            if (!validateEmail(email)) {
-                showFormError('email', 'Invalid email');
-                return;
-            }
+            // if (!validateEmail(email)) {
+            //     showFormError('email', 'Invalid email');
+            //     return;
+            // }
 
             if (!validatePassword(password)) {
                 showFormError('password', 'Password too short');
@@ -28,11 +29,24 @@ import { showLoading } from "./auth.js";
             showLoading(true);
 
             try {
-                const result = await login(email, password);
-                saveUser(result.token);
-                showAlert('Login successful!','success');
+                  const result =await postRequest('/login',{username, password});
+                
+if(result?.errorMessage){
+    showAlert(result.errorMessage,'error')
+}
+
+            if(result?.user){
+                showAlert('Login Successful', 'success');
+
+            saveUser(result.user);
+
+                window.location.href = 'dashboard.html';
+            } 
+
                 // window.location.href = 'dashboard.html';
             } catch (error) {
+                console.log(error);
+                
                 showFormError('password', error.message);
                 showAlert('Login failed', 'error');
             } finally {
