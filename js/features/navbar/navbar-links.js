@@ -12,10 +12,10 @@ export const navbarLinks = [
     //     text: 'Notifications',
     //     link: '/notifications.html'
     // },
-    {
-        text: 'Indoor Plants',
-        link: '/indoor-plants.html'
-    },
+    // {
+    //     text: 'Indoor Plants',
+    //     link: '/indoor-plants.html'
+    // },
 
        {
         text: 'Identify Plant',
