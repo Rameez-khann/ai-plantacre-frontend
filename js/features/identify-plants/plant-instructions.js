@@ -70,16 +70,7 @@ export function generateCareInstructionsHTML(instructions) {
                     </div>
                 </div>
                 
-                <!-- Sunlight Requirements -->
-                <div class="care-item">
-                    <div class="care-icon">
-                        <i class="${getSunlightIcon(instructions.sunlight)}"></i>
-                    </div>
-                    <div class="care-content">
-                        <h4>Light</h4>
-                        <p>${formatSunlight(instructions.sunlight)}</p>
-                    </div>
-                </div>
+          
                 
                 <!-- Soil Type -->
                 <div class="care-item">
@@ -113,3 +104,15 @@ export function generateCareInstructionsHTML(instructions) {
         </div>
     `;
 }
+
+
+      // <!-- Sunlight Requirements -->
+      //           <div class="care-item">
+      //               <div class="care-icon">
+      //                   <i class="${getSunlightIcon(instructions.sunlight)}"></i>
+      //               </div>
+      //               <div class="care-content">
+      //                   <h4>Light</h4>
+      //                   <p>${formatSunlight(instructions.sunlight)}</p>
+      //               </div>
+      //           </div>
