@@ -1,3 +1,5 @@
+import { getCurrentUser } from "../authentication/auth.js";
+
         // Plant data structure
         let plants = [
             {
@@ -77,6 +79,7 @@
 
         // Initialize the dashboard
         function init() {
+            getCurrentUser();
             renderPlants();
             renderStats();
             renderActions();

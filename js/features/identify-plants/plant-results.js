@@ -1,4 +1,6 @@
+import { generateCareInstructionsHTML } from "./plant-instructions.js";
 import { plantResultsCSS } from "./plant-result-styles.js";
+
 
 export function displayPlantResults(resultData, targetElementId = 'plant-results') {
     const targetElement = document.getElementById(targetElementId);
@@ -48,12 +50,12 @@ function createResultsHTML(data) {
                     `).join('')}
                 </div>
             ` : ''}
+
             
-            <div class="plant-info">
-                <button class="btn btn-secondary get-care-btn" onclick="getPlantCare('${plant.name}', '${plant.id}')">
-                    <i class="fas fa-leaf"></i> Get Care Instructions
-                </button>
-            </div>
+            
+           <div class="plant-info">
+             ${generateCareInstructionsHTML(plant.instructions)}
+        </div>
         </div>
     `).join('');
 
@@ -68,41 +70,4 @@ function createResultsHTML(data) {
     `;
 }
 
-function getPlantCare(plantName, plantId) {
-    console.log(`Getting care instructions for: ${plantName} (ID: ${plantId})`);
-    // Integration point for existing care instructions functionality
-    if (typeof getPlantCareInstructions === 'function') {
-        getPlantCareInstructions(plantName);
-    }
-}
 
-// Example usage:
-// const sampleData = {
-//     isPlant: true,
-//     probability: 0.95,
-//     classification: [
-//         {
-//             id: "plant_001",
-//             name: "Monstera Deliciosa",
-//             probability: 0.89,
-//             similarImages: ["url1.jpg", "url2.jpg", "url3.jpg"]
-//         },
-//         {
-//             id: "plant_002", 
-//             name: "Philodendron Brasil",
-//             probability: 0.67,
-//             similarImages: ["url4.jpg", "url5.jpg"]
-//         }
-//     ]
-// };
-// displayPlantResults(sampleData);
-
-
-
-// // Inject CSS if not already present
-// if (!document.querySelector('#plant-results-styles')) {
-//     const styleElement = document.createElement('div');
-//     styleElement.id = 'plant-results-styles';
-//     styleElement.innerHTML = plantResultsCSS;
-//     document.head.appendChild(styleElement);
-// }
