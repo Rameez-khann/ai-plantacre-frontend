@@ -189,3 +189,102 @@ export const plantResultsCSS = `
 }
 </style>
 `;
+
+export const plantCareInstructionsCSS = `<style>
+.care-instructions {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #28a745;
+}
+
+.care-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.care-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.care-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.care-item:nth-child(1) .care-icon { background: #007bff; } /* Water - Blue */
+.care-item:nth-child(2) .care-icon { background: #ffc107; } /* Light - Yellow */
+.care-item:nth-child(3) .care-icon { background: #8b4513; } /* Soil - Brown */
+.care-item:nth-child(4) .care-icon { background: #28a745; } /* Nutrition - Green */
+
+.care-content {
+    flex: 1;
+}
+
+.care-content h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.care-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.nutrition-item {
+    grid-column: 1 / -1; /* Full width for nutrition */
+}
+
+.nutrient {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.nutrient:last-child {
+    border-bottom: none;
+}
+
+.nutrient-name {
+    font-weight: 500;
+    color: #333;
+    font-size: 12px;
+}
+
+.nutrient-schedule {
+    font-size: 11px;
+    color: #28a745;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .care-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .nutrition-item {
+        grid-column: 1;
+    }
+}
+</style>`;

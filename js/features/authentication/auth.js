@@ -1,3 +1,4 @@
+import { showAlert } from "../../core/alerts.js";
 import { postRequest } from "../../core/requests.js";
 
     // auth.js - exportable functions
@@ -28,7 +29,7 @@ if(response.user){
         }
 
         export function getUser() {
-            const user = JSON.parse( localStorage.getItem('user')||'');
+            const user = JSON.parse( localStorage.getItem('user'));
             return user||null;
         }
 
@@ -44,9 +45,10 @@ if(response.user){
 
        export  function getCurrentUser(){
             const user =  getUser();
-            if(!user.firstName){
-                window.location.href('/');
-return null;
+            if(!user?.firstName){
+                showAlert("Log in Or sign up first");
+                window.location.assign('/login.html');
+return null;    
             } else{
                 return user;
             }
@@ -62,5 +64,9 @@ const response = await postRequest(endpoint, user);
 
 export function startSession(user){
     saveUser(user);
-    window.location.href('dashboard.html')
+    window.location.assign('dashboard.html')
 }
+
+// export function allowLoggedInUsersOnly(){
+//     const user = 
+// }
