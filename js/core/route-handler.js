@@ -20,3 +20,24 @@ export function getRouteParams(path, routePattern) {
 
   return params;
 }
+
+
+export function getQueryParams(url) {
+  // If no url is passed, use the current page location
+  const href = url ?? window.location.href;
+
+  const queryIndex = href.indexOf('?');
+  if (queryIndex === -1) return {};
+
+  const queryString = href.slice(queryIndex + 1);
+  const params = {};
+
+  for (const pair of queryString.split('&')) {
+    if (!pair) continue;
+    const [key, value = ''] = pair.split('=');
+    params[decodeURIComponent(key)] = decodeURIComponent(value);
+  }
+
+  return params;
+}
+

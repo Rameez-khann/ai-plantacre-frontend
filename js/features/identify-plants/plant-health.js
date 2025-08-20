@@ -2,14 +2,16 @@
 import { displayPlantInfo, hideLoading, showLoading } from "./plant-instructions-page.js";
 import { showAlert } from "../../core/alerts.js";
 import { displayPlantResults } from "./plant-results.js";
-import { uploadAndIdentifyPlant } from "./plant-identification.js";
+import { getPlantHealth, uploadAndIdentifyPlant } from "./plant-identification.js";
 import { getCurrentUser } from "../authentication/auth.js";
+import { getQueryParams } from "../../core/route-handler.js";
 // DOM Elements
 const uploadZone = document.getElementById('upload-zone');
 const fileInput = document.getElementById('plant-input');
 const previewContainer = document.getElementById('preview-container');
 const submitBtn = document.getElementById('submit-btn');
 const clearBtn = document.getElementById('clear-btn');
+let title = '';
 // State
 let selectedFile = null;
 
@@ -87,6 +89,8 @@ const displayImagePreview = async (file) => {
         showErrorMessage('Failed to load image preview');
     }
 };
+
+
 
 /**
  * Shows the action buttons (submit and clear)
@@ -278,7 +282,18 @@ const initializeEventListeners = () => {
 const initializePlantIdentification = () => {
     initializeEventListeners();
     console.log('Plant identification interface initialized');
+const params = getQueryParams();
+const id = params.id;
+getPlantHealth(id);
+
 };
+
+async function plantHealth(id){
+const health = await getPlantHealth(id);
+return health;
+
+}
+
 
 // Initialize when DOM is loaded
 if (document.readyState === 'loading') {

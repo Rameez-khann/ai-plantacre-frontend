@@ -1,4 +1,5 @@
 import { getCurrentUser } from "../authentication/auth.js";
+import { createPlantCard, getUserPlants } from "./user-plants.js";
 
         // Plant data structure
         let plants = [
@@ -66,7 +67,7 @@ import { getCurrentUser } from "../authentication/auth.js";
         // Garden tips array
         const gardenTips = [
             "Winter months require less frequent watering. Check soil moisture before watering to prevent root rot.",
-            "Yellow leaves often indicate overwatering. Let soil dry between waterings.",
+            "Yellow leaves often indicate over watering. Let soil dry between waterings.",
             "Rotate your plants weekly to ensure even growth and prevent leaning.",
             "Clean leaves monthly with a damp cloth to improve photosynthesis.",
             "Group plants with similar humidity needs together for better care.",
@@ -77,14 +78,7 @@ import { getCurrentUser } from "../authentication/auth.js";
             "Morning sunlight is gentler than harsh afternoon sun for most indoor plants."
         ];
 
-        // Initialize the dashboard
-        function init() {
-            getCurrentUser();
-            renderPlants();
-            renderStats();
-            renderActions();
-            showRandomTip();
-        }
+     
 
         // Show random garden tip
         function showRandomTip() {
@@ -94,8 +88,9 @@ import { getCurrentUser } from "../authentication/auth.js";
         }
 
         // Render plant cards
-        function renderPlants() {
+        async function renderPlants() {
             const plantsGrid = document.getElementById('plantsGrid');
+            const plants = await getUserPlants()
             plantsGrid.innerHTML = '';
 
             plants.forEach(plant => {
@@ -105,83 +100,7 @@ import { getCurrentUser } from "../authentication/auth.js";
         }
 
         // Create individual plant card
-        function createPlantCard(plant) {
-            const card = document.createElement('div');
-            card.className = 'plant-card';
-
-            const daysSinceWatered = Math.floor((Date.now() - plant.lastWatered.getTime()) / (1000 * 60 * 60 * 24));
-            const daysSinceFertilized = Math.floor((Date.now() - plant.lastFertilized.getTime()) / (1000 * 60 * 60 * 24));
-
-            const needsWater = daysSinceWatered >= plant.wateringFreq;
-            const needsFertilizer = daysSinceFertilized >= plant.fertilizingFreq;
-
-            // Determine health indicator
-            let healthClass = 'excellent';
-            if (needsWater || needsFertilizer) {
-                healthClass = 'warning';
-            }
-            if (daysSinceWatered > plant.wateringFreq + 3) {
-                healthClass = 'poor';
-            }
-
-            const pulseClass = (needsWater && daysSinceWatered > plant.wateringFreq + 2) ? 'urgent-pulse' : '';
-
-            card.innerHTML = `
-                <div class="plant-card-inner">
-                    <div class="plant-image-container">
-                        <img src="${plant.image}" alt="${plant.name}" class="plant-image" 
-                             onerror="this.src='https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=200&fit=crop'">
-                        <div class="health-indicator ${healthClass} ${pulseClass}"></div>
-                        <div class="plant-badges">
-                            <span class="badge ${plant.careLevel}">${plant.careLevel}</span>
-                        </div>
-                        <div class="plant-actions">
-                            <button class="action-btn edit-btn" onclick="editPlant(${plant.id})" title="Edit Plant">✏️</button>
-                            <button class="action-btn delete-btn" onclick="deletePlant(${plant.id})" title="Delete Plant">🗑️</button>
-                        </div>
-                    </div>
-                    <div class="plant-content">
-                        <div class="plant-header">
-                            <div class="plant-name">${plant.name}</div>
-                            <div class="scientific-name">${plant.scientificName}</div>
-                        </div>
-                        
-                        <div class="plant-stats">
-                            <div class="stat-item">
-                                <span class="stat-icon">☀️</span>
-                                <span class="stat-label">Light:</span>
-                                <span class="stat-value">${plant.lightRequirement}</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">💧</span>
-                                <span class="stat-label">Water:</span>
-                                <span class="stat-value">Every ${plant.wateringFreq}d</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">🌱</span>
-                                <span class="stat-label">Feed:</span>
-                                <span class="stat-value">Every ${plant.fertilizingFreq}d</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">💦</span>
-                                <span class="stat-label">Amount:</span>
-                                <span class="stat-value">${plant.waterVolume}ml</span>
-                            </div>
-                        </div>
-                        
-                        <div class="plant-footer">
-                            <div class="last-care">
-                                Last watered:<br>
-                                <strong>${daysSinceWatered} days ago</strong>
-                            </div>
-                            <button class="view-btn" onclick="viewPlantDetails(${plant.id})">View Details</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            return card;
-        }
+ 
 
         // Render statistics
         function renderStats() {
@@ -298,8 +217,12 @@ import { getCurrentUser } from "../authentication/auth.js";
                 }
             });
 
-            actionList.innerHTML = actions.map(action => `
-                <div class="action-item ${action.urgency}" onclick="toggleAction('${action.id}')">
+            actionList.innerHTML = actions.map((action) => {
+
+
+                const template = `
+                
+                <div class="text-decoration-none action-item ${action.urgency}" >
                     <div class="action-icon">
                         ${action.type === 'water' ? '💧' : '🌱'}
                     </div>
@@ -312,7 +235,13 @@ import { getCurrentUser } from "../authentication/auth.js";
                             onclick="event.stopPropagation(); toggleAction('${action.id}')">
                     </button>
                 </div>
-            `).join('');
+
+
+            
+            `
+        return template;
+        }).join('');
+    
         }
 
         // Toggle action completion
@@ -343,10 +272,20 @@ import { getCurrentUser } from "../authentication/auth.js";
 
         // Add new plant
         function addPlant() {
-            currentEditingId = null;
-            document.getElementById('modalTitle').textContent = 'Add New Plant';
-            document.getElementById('plantForm').reset();
-            document.getElementById('plantModal').style.display = 'block';
+            window.location.href="identify-plant.html"
+            // currentEditingId = null;
+            // document.getElementById('modalTitle').textContent = 'Add New Plant';
+            // document.getElementById('plantForm').reset();
+            // document.getElementById('plantModal').style.display = 'block';
+        }
+
+           function viewPlantHistory(plantId) {
+            const url = `plant-health.html?id=${plantId}`
+            window.location.href="identify-plant.html"
+            // currentEditingId = null;
+            // document.getElementById('modalTitle').textContent = 'Add New Plant';
+            // document.getElementById('plantForm').reset();
+            // document.getElementById('plantModal').style.display = 'block';
         }
 
         // Edit plant
@@ -384,12 +323,7 @@ import { getCurrentUser } from "../authentication/auth.js";
         }
 
         // View plant details (placeholder)
-        function viewPlantDetails(id) {
-            const plant = plants.find(p => p.id === id);
-            if (plant) {
-                alert(`${plant.name} Details:\n\nScientific Name: ${plant.scientificName}\nCare Level: ${plant.careLevel}\nLight: ${plant.lightRequirement}\nWatering: Every ${plant.wateringFreq} days\nFertilizing: Every ${plant.fertilizingFreq} days\n\nNotes: ${plant.notes || 'None'}`);
-            }
-        }
+     
 
         // Close modal
         function closeModal() {
@@ -460,3 +394,13 @@ import { getCurrentUser } from "../authentication/auth.js";
 
         // Auto-refresh tips periodically
         setInterval(showRandomTip, 30000); // Change tip every 30 seconds
+
+
+           // Initialize the dashboard
+        function init() {
+            getCurrentUser();
+            renderPlants();
+            renderStats();
+            renderActions();
+            showRandomTip();
+        }

@@ -3,7 +3,6 @@ import { displayPlantInfo, hideLoading, showLoading } from "./plant-instructions
 import { showAlert } from "../../core/alerts.js";
 import { displayPlantResults } from "./plant-results.js";
 import { uploadAndIdentifyPlant } from "./plant-identification.js";
-import { getCurrentUser } from "../authentication/auth.js";
 // DOM Elements
 const uploadZone = document.getElementById('upload-zone');
 const fileInput = document.getElementById('plant-input');
@@ -236,7 +235,6 @@ const handleSubmit = async () => {
  * Initializes all event listeners
  */
 const initializeEventListeners = () => {
-    getCurrentUser();
     // File input change event
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];

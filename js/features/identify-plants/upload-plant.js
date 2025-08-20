@@ -1,11 +1,8 @@
-// identify-plant.js
-// import { uploadAndIdentifyPlant } from "./plant-id.js";
 import { displayPlantInfo, hideLoading, showLoading } from "./plant-instructions-page.js";
-import { uploadAndIdentifyPlant } from "./plant-id.js";
 import { showAlert } from "../../core/alerts.js";
-import { getPlantCareInstructions } from "./plant-instructions.js";
 import { displayPlantResults } from "./plant-results.js";
-// import { getPlantCareInstructions } from "./plant-instructions.js";
+import { uploadAndIdentifyPlant } from "./plant-identification.js";
+
 // DOM Elements
 const uploadZone = document.getElementById('upload-zone');
 const fileInput = document.getElementById('plant-input');
@@ -16,7 +13,6 @@ const clearBtn = document.getElementById('clear-btn');
 // State
 let selectedFile = null;
 
-
 /**
  * Validates if the selected file is a valid image
  * @param {File} file - The file to validate
@@ -24,10 +20,8 @@ let selectedFile = null;
  */
 const isValidImageFile = (file) => {
     if (!file) return false;
-    
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'image/webp'];
     const maxSize = 10 * 1024 * 1024; // 10MB
-    
     return validTypes.includes(file.type) && file.size <= maxSize;
 };
 
@@ -54,22 +48,22 @@ const convertFileToBase64 = (file) => {
 const createImagePreview = (base64String, fileName) => {
     const container = document.createElement('div');
     container.className = 'image-preview-wrapper';
-    
+
     const img = document.createElement('img');
     img.src = base64String;
     img.alt = 'Plant preview';
     img.className = 'preview-image';
-    
+
     const info = document.createElement('div');
     info.className = 'image-info';
     info.innerHTML = `
         <p><i class="fas fa-image"></i> ${fileName}</p>
         <p><i class="fas fa-check-circle"></i> Ready for identification</p>
     `;
-    
+
     container.appendChild(img);
     container.appendChild(info);
-    
+
     return container;
 };
 
@@ -81,7 +75,7 @@ const displayImagePreview = async (file) => {
     try {
         const base64String = await convertFileToBase64(file);
         const previewElement = createImagePreview(base64String, file.name);
-        
+
         previewContainer.innerHTML = '';
         previewContainer.appendChild(previewElement);
         previewContainer.classList.add('show');
@@ -124,7 +118,6 @@ const updateUploadZoneState = (hasImage) => {
  * @param {string} message - Error message to display
  */
 const showErrorMessage = (message) => {
-    // Create a temporary error message element
     const errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
     errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
@@ -137,11 +130,10 @@ const showErrorMessage = (message) => {
         text-align: center;
         animation: fadeIn 0.3s ease-out;
     `;
-    
+
     previewContainer.innerHTML = '';
     previewContainer.appendChild(errorDiv);
-    
-    // Remove error message after 5 seconds
+
     setTimeout(() => {
         if (errorDiv.parentNode) {
             errorDiv.remove();
@@ -155,10 +147,10 @@ const showErrorMessage = (message) => {
  */
 const handleFileSelection = async (file) => {
     if (!isValidImageFile(file)) {
-        showAlert('Please select a valid image file (JPG, PNG, HEIC) under 10MB','error');
+        showAlert('Please select a valid image file (JPG, PNG, HEIC) under 10MB', 'error');
         return;
     }
-    
+
     selectedFile = file;
     await displayImagePreview(file);
     updateUploadZoneState(true);
@@ -175,15 +167,12 @@ const clearSelection = () => {
     previewContainer.classList.remove('show');
     updateUploadZoneState(false);
     hideActionButtons();
-    displayPlantResults(null)
-    
-    // Reset any error states
+    displayPlantResults(null);
     uploadZone.classList.remove('error');
 };
 
 /**
  * Handles the drag over event
- * @param {DragEvent} e - The drag event
  */
 const handleDragOver = (e) => {
     e.preventDefault();
@@ -192,7 +181,6 @@ const handleDragOver = (e) => {
 
 /**
  * Handles the drag leave event
- * @param {DragEvent} e - The drag event
  */
 const handleDragLeave = (e) => {
     e.preventDefault();
@@ -201,12 +189,11 @@ const handleDragLeave = (e) => {
 
 /**
  * Handles the file drop event
- * @param {DragEvent} e - The drop event
  */
 const handleDrop = (e) => {
     e.preventDefault();
     uploadZone.classList.remove('dragover');
-    
+
     const files = e.dataTransfer.files;
     if (files.length > 0) {
         handleFileSelection(files[0]);
@@ -225,8 +212,7 @@ const handleSubmit = async () => {
     showLoading();
     try {
         const result = await uploadAndIdentifyPlant(selectedFile);
-    //  Call method here to render plant results to the div id plant-results. 
-    displayPlantResults(result)
+        displayPlantResults(result);
     } catch (err) {
         showErrorMessage('Failed to identify plant. Please try again.');
         console.error('Plant identification error:', err);
@@ -239,33 +225,24 @@ const handleSubmit = async () => {
  * Initializes all event listeners
  */
 const initializeEventListeners = () => {
-    // File input change event
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
-        if (file) {
-            handleFileSelection(file);
-        }
+        if (file) handleFileSelection(file);
     });
 
-    // Drag and drop events
     uploadZone.addEventListener('dragover', handleDragOver);
     uploadZone.addEventListener('dragleave', handleDragLeave);
     uploadZone.addEventListener('drop', handleDrop);
 
-    // Click to select file
     uploadZone.addEventListener('click', (e) => {
         if (e.target === uploadZone || e.target.closest('.upload-content')) {
             fileInput.click();
         }
     });
 
-    // Submit button
     submitBtn.addEventListener('click', handleSubmit);
-
-    // Clear button
     clearBtn.addEventListener('click', clearSelection);
 
-    // Prevent default drag behaviors on document
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         document.addEventListener(eventName, (e) => {
             e.preventDefault();

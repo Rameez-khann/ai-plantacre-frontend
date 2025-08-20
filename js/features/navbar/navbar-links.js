@@ -1,5 +1,5 @@
 
-export const navbarLinks = [
+export  const navbarLinks = [
     {
         text: 'Home',
         link: '/'

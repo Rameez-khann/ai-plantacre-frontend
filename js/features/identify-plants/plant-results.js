@@ -34,7 +34,7 @@ function createResultsHTML(data) {
         `;
     }
 
-    const suggestionsHTML = classification.map((plant, index) => `
+    const suggestionsHTML = [classification].map((plant, index) => `
         <div class="plant-suggestion ${index === 0 ? 'top-match' : ''}">
             <div class="suggestion-header">
                 <h3>${plant.name}</h3>

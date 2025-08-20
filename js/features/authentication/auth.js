@@ -25,11 +25,16 @@ if(response.user){
         
 
         export function saveUser(user) {
+            if(user){
+                delete user.password;
+                delete user.createdAt;
+            }
             localStorage.setItem('user', JSON.stringify(user));
         }
 
         export function getUser() {
             const user = JSON.parse( localStorage.getItem('user'));
+            
             return user||null;
         }
 
@@ -45,11 +50,15 @@ if(response.user){
 
        export  function getCurrentUser(){
             const user =  getUser();
+            
             if(!user?.firstName){
                 showAlert("Log in Or sign up first");
                 window.location.assign('/login.html');
-return null;    
+            return null;    
+
             } else{
+            delete user.password;
+
                 return user;
             }
         }
