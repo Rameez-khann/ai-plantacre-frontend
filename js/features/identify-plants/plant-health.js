@@ -284,14 +284,69 @@ const initializePlantIdentification = () => {
     console.log('Plant identification interface initialized');
 const params = getQueryParams();
 const id = params.id;
-getPlantHealth(id);
+plantHealth(id);
 
 };
 
-async function plantHealth(id){
-const health = await getPlantHealth(id);
-return health;
+// async function plantHealth(id){
+// const plantHistory = await getPlantHealth(id);
+// plantHealth(plantHistory);
+// return health;
 
+// }
+
+async function plantHealth(id){
+const plantHistory = await getPlantHealth(id);
+
+      const titleContainer = document.getElementById('leaf');
+  const plantContainer = document.getElementById('plantImage');
+  const historyContainer = document.getElementById('plant-history');
+  const classification= plantHistory.identification?.classification;
+  if(titleContainer){
+    console.log(classification.instructions);
+    
+    titleContainer.innerHTML = classification.name;
+  }
+
+
+  if(plantContainer){
+    const html = `
+<div class="centered">
+<div class="rounded">
+  <img src="${classification.instructions.imageURl}" alt="preview" />
+</div>
+</div>
+
+<style>
+
+.centered{
+width:100vw !important;
+display:flex;
+justify-content:space-evenly;
+align-items:center;
+}
+.rounded {
+  border-radius: 5%;      /* make the container circular */
+  width: 180px;
+  aspect-ratio:1;
+  overflow: hidden;        /* hide image parts outside circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border:2px solid green;
+}
+
+.rounded img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* crop image nicely */
+}
+</style>
+
+    `
+    plantContainer.innerHTML= html;
+    historyContainer.innerHTML = plantHistory.history;
+  }
 }
 
 

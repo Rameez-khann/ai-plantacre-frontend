@@ -37,6 +37,6 @@ export async function checkPlantHealth(plantId,file) {
 
 export async function getPlantHealth(id) {
   const plantHistory = await getRequest(`/plant-health/${id}`);
-  
+
 return plantHistory;
 }
