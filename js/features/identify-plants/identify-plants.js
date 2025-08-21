@@ -221,9 +221,33 @@ const handleSubmit = async () => {
 
     showLoading();
     try {
-        const result = await uploadAndIdentifyPlant(selectedFile);
+        const result = await uploadAndIdentifyPlant(selectedFile,null);
+        let probability = result.classification.probability;
+        const maxPosiibility = 0.65;
+
+if(probability >=0.5){
+   probability = maxPosiibility;
+    // displayPlantResults(result)
+    
+}
+
+
+        console.log({probability});
+        if(probability >=maxPosiibility){
     //  Call method here to render plant results to the div id plant-results. 
+
     displayPlantResults(result)
+if(result.html){
+    const element = document.getElementById('instructions');
+    element.innerHTML = result.html
+}
+
+            
+        } else{
+
+showErrorMessage("We're unable to determine the plant, please share another picture.")
+
+        }
     } catch (err) {
         showErrorMessage('Failed to identify plant. Please try again.');
         console.error('Plant identification error:', err);

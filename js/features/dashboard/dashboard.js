@@ -1,65 +1,7 @@
 import { getCurrentUser } from "../authentication/auth.js";
 import { createPlantCard, getUserPlants } from "./user-plants.js";
 
-        // Plant data structure
-        let plants = [
-            {
-                id: 1,
-                name: "Peace Lily",
-                scientificName: "Spathiphyllum",
-                image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=200&fit=crop",
-                careLevel: "easy",
-                lightRequirement: "Medium",
-                wateringFreq: 7,
-                waterVolume: 200,
-                fertilizingFreq: 14,
-                lastWatered: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-                lastFertilized: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
-                notes: "Enjoys humidity and filtered water"
-            },
-            {
-                id: 2,
-                name: "Monstera Deliciosa",
-                scientificName: "Monstera deliciosa",
-                image: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400&h=200&fit=crop",
-                careLevel: "medium",
-                lightRequirement: "Bright",
-                wateringFreq: 10,
-                waterVolume: 300,
-                fertilizingFreq: 21,
-                lastWatered: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
-                lastFertilized: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000),
-                notes: "Loves to climb, provide moss pole"
-            },
-            {
-                id: 3,
-                name: "Snake Plant",
-                scientificName: "Sansevieria trifasciata",
-                image: "https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=400&h=200&fit=crop",
-                careLevel: "easy",
-                lightRequirement: "Any",
-                wateringFreq: 21,
-                waterVolume: 150,
-                fertilizingFreq: 60,
-                lastWatered: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
-                lastFertilized: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000),
-                notes: "Very drought tolerant, avoid overwatering"
-            },
-            {
-                id: 4,
-                name: "Fiddle Leaf Fig",
-                scientificName: "Ficus lyrata",
-                image: "https://images.unsplash.com/photo-1586016286298-65b62d8b8595?w=400&h=200&fit=crop",
-                careLevel: "hard",
-                lightRequirement: "Bright",
-                wateringFreq: 7,
-                waterVolume: 400,
-                fertilizingFreq: 14,
-                lastWatered: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
-                lastFertilized: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
-                notes: "Sensitive to overwatering and changes in light"
-            }
-        ];
+// let plants = [];
 
         let completedActions = [];
         let currentEditingId = null;
@@ -109,7 +51,7 @@ import { createPlantCard, getUserPlants } from "./user-plants.js";
             const totalPlants = plants.length;
             const easyPlants = plants.filter(p => p.careLevel === 'easy').length;
             const plantsNeedingWater = plants.filter(p => {
-                const daysSinceWatered = Math.floor((Date.now() - p.lastWatered.getTime()) / (1000 * 60 * 60 * 24));
+                const daysSinceWatered = Math.floor((Date.now() - p.lastWatered.getTime()) / (10.800 * 60 * 60 * 24));
                 return daysSinceWatered >= p.wateringFreq;
             }).length;
             const healthyPlants = plants.filter(p => {

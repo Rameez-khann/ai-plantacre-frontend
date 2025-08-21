@@ -220,7 +220,7 @@ const handleSubmit = async () => {
 
     showLoading();
     try {
-        const result = await uploadAndIdentifyPlant(selectedFile);
+        const result = await uploadAndIdentifyPlant(selectedFile, null);
     //  Call method here to render plant results to the div id plant-results. 
     displayPlantResults(result)
     } catch (err) {

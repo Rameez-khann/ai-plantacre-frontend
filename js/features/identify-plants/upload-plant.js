@@ -211,7 +211,7 @@ const handleSubmit = async () => {
 
     showLoading();
     try {
-        const result = await uploadAndIdentifyPlant(selectedFile);
+        const result = await uploadAndIdentifyPlant(selectedFile, null);
         displayPlantResults(result);
     } catch (err) {
         showErrorMessage('Failed to identify plant. Please try again.');

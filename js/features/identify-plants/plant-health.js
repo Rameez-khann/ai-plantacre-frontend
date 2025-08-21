@@ -225,7 +225,12 @@ const handleSubmit = async () => {
 
     showLoading();
     try {
-        const result = await uploadAndIdentifyPlant(selectedFile);
+const params = getQueryParams();
+const id = params.id||null;
+
+
+
+        const result = await uploadAndIdentifyPlant(selectedFile, id);
     //  Call method here to render plant results to the div id plant-results. 
     displayPlantResults(result)
     } catch (err) {
