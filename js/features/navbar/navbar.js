@@ -1,10 +1,64 @@
+import { getUser } from "../authentication/auth.js";
 import { navbarLinks } from "./navbar-links.js";
 
 /**
  * Generates HTML list items for each navigation link
  */
+// function showNavLinks() {
+//     const allLinks = navbarLinks;
+//     const user = getUser();
+//     if(user){
+// allLinks.push([
+//        {
+//         text: 'Logout',
+//         link: '/logout.html'
+//     },
+// ])
+//     } else{
+// allLinks.push([
+//        {
+//         text: 'Login',
+//         link: '/login.html'
+//     },
+//     {
+//         text: 'Signup',
+//         link: '/signup.html'
+//     },
+// ])
+//     }
+
+
+
+//     return allLinks
+
+
+// .map(({ text, link }) => `<li><a href="${link}">${text}</a></li>`)
+//         .join("\n");
+// }
+
 function showNavLinks() {
-    return navbarLinks
+    const allLinks = [...navbarLinks]; // copy, don’t mutate directly
+    const user = getUser();
+
+    if (user) {
+        allLinks.push({
+            text: 'Logout',
+            link: '/logout.html'
+        });
+    } else {
+        allLinks.push(
+            {
+                text: 'Login',
+                link: '/login.html'
+            },
+            {
+                text: 'Signup',
+                link: '/signup.html'
+            }
+        );
+    }
+
+    return allLinks
         .map(({ text, link }) => `<li><a href="${link}">${text}</a></li>`)
         .join("\n");
 }

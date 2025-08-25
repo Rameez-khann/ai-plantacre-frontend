@@ -32,8 +32,8 @@ const sampleNotifications = [
 
 // Initialize notifications
 function initNotifications() {
-    
-    const container = document.getElementById('notifications');
+    // return false;
+    const container = document.getElementById('notification');
     if (!container) return;
 
     injectStyles();

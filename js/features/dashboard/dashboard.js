@@ -1,7 +1,7 @@
 import { getCurrentUser } from "../authentication/auth.js";
 import { createPlantCard, getUserPlants } from "./user-plants.js";
 
-// let plants = [];
+let plants = [];
 
         let completedActions = [];
         let currentEditingId = null;
