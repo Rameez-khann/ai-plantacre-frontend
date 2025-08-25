@@ -51,7 +51,6 @@ export function createPlantCard(plantResult) {
                      onerror="this.src='/assets/images/default-plant.jpg'">
                 <div class="health-indicator ${healthClass} ${pulseClass}"></div>
                 <div class="plant-badges">
-                    <span class="badge ${careLevel}">${careLevel}</span>
                     <span class="badge confidence">${confidence}%</span>
                 </div>
                 <div class="plant-actions">
